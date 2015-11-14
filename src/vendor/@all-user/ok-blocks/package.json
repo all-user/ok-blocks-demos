@@ -1,44 +1,55 @@
 {
-  "name": "@all-user/ok-blocks",
-  "version": "0.0.1",
-  "description": "Generate blocks consists of 3x3 elements.",
-  "main": "index.js",
-  "scripts": {
-    "test": "testem",
-    "build:patterns:js:lines": "browserify -t [ babelify --optional runtime ] ./src/js/patterns/Lines/index.js -o ./src/patterns/Lines/index.js",
-    "build:patterns:js:olympic": "browserify -t [ babelify --optional runtime ] ./src/js/patterns/Olympic2020/index.js -o ./src/patterns/Olympic2020/index.js",
-    "build:patterns:css:Olympic2020": "stylus -c ./src/stylus/patterns/Olympic2020/index.styl -o ./src/patterns/Olympic2020/bundle.css -m",
-    "build:patterns:css:Lines": "stylus -u nib -c ./src/stylus/patterns/Lines/index.styl -o ./src/patterns/Lines/bundle.css -m",
-    "watch:patterns:js": "watch \"npm-run-all build:patterns:js:*\" ./src/js/patterns",
-    "watch:patterns:css": "watch \"npm-run-all build:patterns:css:*\" ./src/stylus/patterns",
-    "build:js": "browserify -t [ babelify --optional runtime ] ./src/js/index.js -d | exorcist ./src/bundle.js.map > ./src/bundle.js",
-    "watch:js": "watchify -v -t [ babelify --optional runtime ] ./src/js/index.js -o \"exorcist ./src/bundle.js.map > ./src/bundle.js\" -d",
-    "release:js": "browserify -t [ babelify --optional runtime ] ./src/js/index.js | uglifyjs > ./dist/bundle.js",
-    "release:patterns": "cpx ./src/patterns ./dist/patterns",
-    "release:clean": "rimraf ./dist",
-    "release:mkdir": "npm run release:clean && mkdirp ./dist",
-    "release": "npm run release:mkdir && npm run release:js && npm run release:patterns",
-    "watch": "npm run watch:js & npm run watch:patterns:js & npm run watch:patterns:css",
-    "start": "npm run watch"
+  "_args": [
+    [
+      "../ok-blocks",
+      "/workspace/ok-blocks-demos"
+    ]
+  ],
+  "_from": "../ok-blocks",
+  "_id": "@all-user/ok-blocks@0.0.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/@all-user/ok-blocks",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": null,
+    "raw": "../ok-blocks",
+    "rawSpec": "../ok-blocks",
+    "scope": null,
+    "spec": "/workspace/ok-blocks",
+    "type": "directory"
   },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../ok-blocks",
+  "_shasum": "44dfd73df9042bacc567b900da9154b8f682afa1",
+  "_shrinkwrap": null,
+  "_spec": "../ok-blocks",
+  "_where": "/workspace/ok-blocks-demos",
   "author": {
-    "name": "Keita Okamoto",
-    "email": "ok@aaa.email.ne.jp"
+    "email": "ok@aaa.email.ne.jp",
+    "name": "Keita Okamoto"
   },
-  "license": "MIT",
+  "dependencies": {
+    "xtend": "^4.0.0"
+  },
+  "description": "Generate blocks consists of 3x3 elements.",
   "devDependencies": {
     "append-css": "^0.1.6",
-    "babel-plugin-espower": "^1.0.0",
-    "babel-runtime": "^5.8.25",
-    "babelify": "^6.1.3",
-    "browserify": "^11.0.1",
+    "babel-core": "^6.1.21",
+    "babel-plugin-espower": "^2.0.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.1.20",
+    "babel-preset-es2015": "^6.1.18",
+    "babelify": "^7.2.0",
+    "browserify": "^12.0.1",
     "cpx": "^1.2.1",
     "exorcist": "^0.4.0",
     "mkdirp": "*",
     "mocha": "^2.2.5",
     "nib": "^1.1.0",
     "npm-run-all": "^1.2.12",
-    "power-assert": "^0.11.0",
+    "power-assert": "^1.2.0",
     "rimraf": "^2.4.3",
     "stylus": "^0.52.0",
     "testem": "*",
@@ -46,14 +57,30 @@
     "watch": "^0.16.0",
     "watchify": "^3.3.1"
   },
-  "dependencies": {
-    "xtend": "^4.0.0"
-  },
-  "readme": "# SquarePatterner\n\nGenerate emblem composed of 3x3 elements.\n\n## Usage\n\n```shell\nnpm i minimas\n```\n\n```html\n<head>\n    <script src=\"path/to/square-patterner/dist/bundle.js\"></script>\n    <link rel=\"stylesheet\" href=\"path/to/square-patterner/dist/bundle.css\">\n</head>\n<body>\n    <script>\n        var { Emblem, EmblemGroup } = SquarePatterner;\n        var emb = Emblem('a', { size: 300 }); // initial charactor and size in px.\n\n        document.addEventListener('DOMContentLoaded', function() {\n\n            emb.appendTo(document.body);\n            // or other way.\n            // document.body.appendChild(emb.dom);\n            // emb.dom is instance of DOMElement.\n\n            emb.to('z'); // change to another charactor.\n\n            emb.animateFromString(\"abc123!'.:;/_\"); // animate from string.\n\n            // grouping\n            var group = new EmblemGroup('from any message.');\n\n            group.appendTo(document.body);\n        });\n    </script>\n</body>\n```\n\n## Documentation\n\n- [__`Emblem`__]()\n- [__`EmblemGroup`__]()\n",
+  "gitHead": "123468f5fea885e636168d118029777b34e2643d",
+  "license": "MIT",
+  "main": "index.js",
+  "name": "@all-user/ok-blocks",
+  "optionalDependencies": {},
+  "readme": "# OK BLOCKS\n\nGenerate blocks consists of 3x3 elements.\n",
   "readmeFilename": "README.md",
-  "gitHead": "f67545b9cc6a833b8327d7448ffd46224b2a33dc",
-  "_id": "@all-user/ok-blocks@0.0.1",
-  "_shasum": "a4fe87bfc890987d9ae1d2f15ba21363bcbbab7b",
-  "_from": "../ok-blocks",
-  "_resolved": "file:../ok-blocks"
+  "scripts": {
+    "build:js": "browserify -t babelify ./src/js/index.js -d | exorcist ./src/bundle.js.map > ./src/bundle.js",
+    "build:patterns:css:Lines": "stylus -u nib -c ./src/stylus/patterns/Lines/index.styl -o ./src/patterns/Lines/bundle.css -m",
+    "build:patterns:css:Olympic2020": "stylus -c ./src/stylus/patterns/Olympic2020/index.styl -o ./src/patterns/Olympic2020/bundle.css -m",
+    "build:patterns:js:lines": "browserify -t babelify ./src/js/patterns/Lines/index.js -o ./src/patterns/Lines/index.js",
+    "build:patterns:js:olympic": "browserify -t babelify ./src/js/patterns/Olympic2020/index.js -o ./src/patterns/Olympic2020/index.js",
+    "release": "npm run release:mkdir && npm run release:js && npm run release:patterns",
+    "release:clean": "rimraf ./dist",
+    "release:js": "browserify -t babelify ./src/js/index.js | uglifyjs > ./dist/bundle.js",
+    "release:mkdir": "npm run release:clean && mkdirp ./dist",
+    "release:patterns": "cpx \"./src/patterns/**/*\" ./dist/patterns",
+    "start": "npm run watch",
+    "test": "testem",
+    "watch": "npm run watch:js & npm run watch:patterns:js & npm run watch:patterns:css",
+    "watch:js": "watchify -v -t babelify ./src/js/index.js -o \"exorcist ./src/bundle.js.map > ./src/bundle.js\" -d",
+    "watch:patterns:css": "watch \"npm-run-all build:patterns:css:*\" ./src/stylus/patterns",
+    "watch:patterns:js": "watch \"npm-run-all build:patterns:js:*\" ./src/js/patterns"
+  },
+  "version": "0.0.1"
 }
