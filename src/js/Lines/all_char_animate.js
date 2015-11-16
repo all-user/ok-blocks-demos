@@ -11,12 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let sizeL      = size - MARGIN * 2;
     let sizeS      = MARGIN * 3;
 
-    olms.push(new Emblem('a', { size: sizeS,  displayTime: 3111, random: true }));
-    olms.push(new Emblem('z', { size: sizeS,  displayTime: 6399, random: true }));
-    olms.push(new Emblem('t', { size: sizeS,  displayTime: 1477, random: true }));
+    olms.push(new Emblem('a', { pattern: 'Lines', size: sizeS,  displayTime: 3111, random: true }));
+    olms.push(new Emblem('z', { pattern: 'Lines', size: sizeS,  displayTime: 6399, random: true }));
+    olms.push(new Emblem('t', { pattern: 'Lines', size: sizeS,  displayTime: 1477, random: true }));
     olms.forEach(e => { e.dom.style.margin = `${ MARGIN }px`; });
 
-    let bigEmblem = new Emblem('/', { size: sizeL, displayTime: 1000, duration: 200 });
+    let bigEmblem = new Emblem('/', { pattern: 'Lines', size: sizeL, displayTime: 1000, duration: 200 });
     bigEmblem.dom.style.margin = `${ MARGIN }px`;
     olms.push(bigEmblem);
 

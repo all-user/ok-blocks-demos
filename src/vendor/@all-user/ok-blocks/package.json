@@ -23,7 +23,7 @@
     "#USER"
   ],
   "_resolved": "file:../ok-blocks",
-  "_shasum": "44dfd73df9042bacc567b900da9154b8f682afa1",
+  "_shasum": "544a5fddcd040dcb39cb688780f6b1b64d4ccaf2",
   "_shrinkwrap": null,
   "_spec": "../ok-blocks",
   "_where": "/workspace/ok-blocks-demos",
@@ -36,6 +36,7 @@
   },
   "description": "Generate blocks consists of 3x3 elements.",
   "devDependencies": {
+    "@all-user/ok-patterns-lines": "file:../ok-patterns-lines",
     "append-css": "^0.1.6",
     "babel-core": "^6.1.21",
     "babel-plugin-espower": "^2.0.0",
@@ -57,7 +58,7 @@
     "watch": "^0.16.0",
     "watchify": "^3.3.1"
   },
-  "gitHead": "123468f5fea885e636168d118029777b34e2643d",
+  "gitHead": "5e062599f104a2719e72c09db47e97e29638a34e",
   "license": "MIT",
   "main": "index.js",
   "name": "@all-user/ok-blocks",
@@ -66,21 +67,15 @@
   "readmeFilename": "README.md",
   "scripts": {
     "build:js": "browserify -t babelify ./src/js/index.js -d | exorcist ./src/bundle.js.map > ./src/bundle.js",
-    "build:patterns:css:Lines": "stylus -u nib -c ./src/stylus/patterns/Lines/index.styl -o ./src/patterns/Lines/bundle.css -m",
-    "build:patterns:css:Olympic2020": "stylus -c ./src/stylus/patterns/Olympic2020/index.styl -o ./src/patterns/Olympic2020/bundle.css -m",
-    "build:patterns:js:lines": "browserify -t babelify ./src/js/patterns/Lines/index.js -o ./src/patterns/Lines/index.js",
-    "build:patterns:js:olympic": "browserify -t babelify ./src/js/patterns/Olympic2020/index.js -o ./src/patterns/Olympic2020/index.js",
-    "release": "npm run release:mkdir && npm run release:js && npm run release:patterns",
+    "release": "npm-run-all -s release:mkdir -p release:js release:es5",
     "release:clean": "rimraf ./dist",
+    "release:es5": "babel src/js -x .js -d lib",
     "release:js": "browserify -t babelify ./src/js/index.js | uglifyjs > ./dist/bundle.js",
     "release:mkdir": "npm run release:clean && mkdirp ./dist",
-    "release:patterns": "cpx \"./src/patterns/**/*\" ./dist/patterns",
     "start": "npm run watch",
     "test": "testem",
-    "watch": "npm run watch:js & npm run watch:patterns:js & npm run watch:patterns:css",
-    "watch:js": "watchify -v -t babelify ./src/js/index.js -o \"exorcist ./src/bundle.js.map > ./src/bundle.js\" -d",
-    "watch:patterns:css": "watch \"npm-run-all build:patterns:css:*\" ./src/stylus/patterns",
-    "watch:patterns:js": "watch \"npm-run-all build:patterns:js:*\" ./src/js/patterns"
+    "watch": "npm run watch:js",
+    "watch:js": "watchify -v -t babelify ./src/js/index.js -o \"exorcist ./src/bundle.js.map > ./src/bundle.js\" -d"
   },
   "version": "0.0.1"
 }
