@@ -29,7 +29,6 @@
   "author": "Keita Okamoto <ok@aaa.email.ne.jp>",
   "license": "MIT",
   "devDependencies": {
-    "@all-user/ok-blocks": "file:../ok-blocks",
     "babel-core": "^6.1.21",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.1.20",
     "babel-preset-es2015": "^6.1.18",
@@ -47,6 +46,7 @@
     "watchify": "^3.3.1"
   },
   "dependencies": {
+    "@all-user/ok-blocks": "file:../ok-blocks",
     "xtend": "^4.0.0"
   }
 }
