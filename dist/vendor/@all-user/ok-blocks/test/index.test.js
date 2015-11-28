@@ -1,11 +1,8 @@
-// square-patterner
-import '../src/js/index.js'
-
 // patterns
-import '../src/js/patterns/Lines/index.js'
-import '../src/js/patterns/Olympic2020/index.js'
+import '@all-user/ok-patterns-lines'
+import '@all-user/ok-patterns-olympic2020'
 
 // test
-import './Emblem.test.js'
-import './EmblemGroup.test.js'
+import './OKBlock.test.js'
+import './OKBlocksGroup.test.js'
 import './Lines.test.js'

@@ -47,6 +47,8 @@
   },
   "dependencies": {
     "@all-user/ok-blocks": "file:../ok-blocks",
+    "@all-user/ok-patterns-lines": "file:../ok-patterns-lines",
+    "@all-user/ok-patterns-olympic2020": "file:../ok-patterns-olympic2020",
     "xtend": "^4.0.0"
   }
 }

@@ -11,16 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let sizeL      = size - MARGIN * 2;
     let sizeS      = MARGIN * 3;
 
-    olms.push(new Emblem('a', { size: sizeS,  displayTime: 3111, random: true, pattern: 'Olympic2020' }));
-    olms.push(new Emblem('z', { size: sizeS,  displayTime: 6399, random: true, pattern: 'Olympic2020' }));
-    olms.push(new Emblem('t', { size: sizeS,  displayTime: 1477, random: true, pattern: 'Olympic2020' }));
+    olms.push(new OKBlock('a', { size: sizeS,  displayTime: 3111, random: true, pattern: 'Olympic2020' }));
+    olms.push(new OKBlock('z', { size: sizeS,  displayTime: 6399, random: true, pattern: 'Olympic2020' }));
+    olms.push(new OKBlock('t', { size: sizeS,  displayTime: 1477, random: true, pattern: 'Olympic2020' }));
     olms.forEach(e => { e.dom.style.margin = `${ MARGIN }px`; });
 
-    let bigEmblem = new Emblem('/', { size: sizeL, displayTime: 1000, duration: 800, pattern: 'Olympic2020' });
-    bigEmblem.dom.style.margin = `${ MARGIN }px`;
-    olms.push(bigEmblem);
+    let bigOKBlock = new OKBlock('/', { size: sizeL, displayTime: 1000, duration: 800, pattern: 'Olympic2020' });
+    bigOKBlock.dom.style.margin = `${ MARGIN }px`;
+    olms.push(bigOKBlock);
 
-    const allValidChars = bigEmblem.allValidChars;
+    const allValidChars = bigOKBlock.allValidChars;
 
     olms.forEach((olm, idx) => {
         olm.dom.addEventListener('click', () => {

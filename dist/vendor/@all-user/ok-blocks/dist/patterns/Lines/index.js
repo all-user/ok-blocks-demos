@@ -14,7 +14,7 @@ var _DEFAULT_OPTIONS = {
 };
 
 /*
- * DOM in instance of Emblem.
+ * DOM in instance of OKBlock.
  */
 var _BASE_DOM = (function () {
     var wrapper = document.createElement('div');
@@ -182,7 +182,7 @@ var _formationTable = {
  */
 var _TRANSITION_PROPS = ['width', 'height', 'background-color', 'border-radius'];
 
-Emblem.define('Lines', { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DOM, _TRANSITION_PROPS: _TRANSITION_PROPS, _formationTable: _formationTable });
+OKBlock.define('Lines', { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DOM, _TRANSITION_PROPS: _TRANSITION_PROPS, _formationTable: _formationTable });
 
 /*
  * advanced properties
@@ -191,7 +191,7 @@ Emblem.define('Lines', { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DO
 var WEIGHT_PROP = Symbol();
 var WEIGHT_LIMIT_PROP = Symbol();
 
-Object.defineProperty(Emblem.prototype, 'weight', {
+Object.defineProperty(OKBlock.prototype, 'weight', {
     get: function get() {
         return this[WEIGHT_PROP];
     },
@@ -205,17 +205,17 @@ Object.defineProperty(Emblem.prototype, 'weight', {
     }
 });
 
-Emblem.prototype.bolder = function () {
+OKBlock.prototype.bolder = function () {
     this.weight = this[WEIGHT_PROP] + 1;
 };
 
-Emblem.prototype.lighter = function () {
+OKBlock.prototype.lighter = function () {
     this.weight = this[WEIGHT_PROP] - 1;
 };
 
-Emblem.prototype[WEIGHT_PROP] = 3;
+OKBlock.prototype[WEIGHT_PROP] = 3;
 
-Object.defineProperty(Emblem.prototype, WEIGHT_LIMIT_PROP, {
+Object.defineProperty(OKBlock.prototype, WEIGHT_LIMIT_PROP, {
     value: 6
 });
 

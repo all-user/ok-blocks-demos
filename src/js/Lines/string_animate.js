@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         BLANK_COPY,
     ];
 
-    let group = new EmblemGroup(TITLE_COPY, { pattern: 'Lines', length: 21, size: EMBLEM_SIZE, displayTime: 1500 });
+    let group = new OKBlocksGroup(TITLE_COPY, { pattern: 'Lines', length: 21, size: EMBLEM_SIZE, displayTime: 1500 });
 
     group.emblems.forEach(e => {
         e.dom.style.margin = `${ MARGIN }px`;

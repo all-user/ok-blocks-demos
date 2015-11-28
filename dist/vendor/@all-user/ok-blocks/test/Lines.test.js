@@ -1,5 +1,6 @@
 import assert from 'power-assert'
 
+
 describe('Lines Patterns Test', () => {
     const BASE_CHAR_LOWER   = 'a';
     const BASE_CHAR_UPPER   = 'A';
@@ -17,19 +18,19 @@ describe('Lines Patterns Test', () => {
     let emb;
 
     beforeEach('インスタンス生成', done => {
-        emb = new Emblem(BASE_CHAR_LOWER, { patttern: 'Lines', displayTime: DISPLAY_TIME, size: EMBLEM_SIZE });
+        emb = new OKBlock(BASE_CHAR_LOWER, { pattern: 'Lines', displayTime: DISPLAY_TIME, size: EMBLEM_SIZE });
         done();
     });
 
-    describe('Emblem#weight', () => {
+    describe('OKBlock#weight', () => {
 
-        it('Emblem.weightはweight = nで設定した値を返す', done => {
+        it('OKBlock.weightはweight = nで設定した値を返す', done => {
             emb.weight = 5;
             assert.equal(emb.weight, 5);
             done();
         });
 
-        it('weight(n)の時Emblem.dom.classListは"lines-emblem"と"weight_n"を含む', done => {
+        it('weight(n)の時OKBlock.dom.classListは"lines-emblem"と"weight_n"を含む', done => {
             emb.weight = 5;
 
             assert(emb.dom.classList.contains('lines-emblem'));
@@ -38,7 +39,7 @@ describe('Lines Patterns Test', () => {
             done();
         });
 
-        it('weight(n)の時Emblem.dom.classNameは"lines-emblem weight_n"を返す', done => {
+        it('weight(n)の時OKBlock.dom.classNameは"lines-emblem weight_n"を返す', done => {
             emb.weight = 5;
             assert.equal(emb.dom.className, 'lines-emblem weight_5')
 
@@ -47,7 +48,7 @@ describe('Lines Patterns Test', () => {
 
     });
 
-    describe('Emblem#bolder', () => {
+    describe('OKBlock#bolder', () => {
         it('this.weight + 1を返す', done => {
             emb.bolder();
             assert.equal(emb.weight, DEFAULT_WEIGHT + 1);
@@ -65,7 +66,7 @@ describe('Lines Patterns Test', () => {
 
     });
 
-    describe('Emblem#lighter', () => {
+    describe('OKBlock#lighter', () => {
         it('this.weight - 1を返す', done => {
             emb.bolder();
             assert.equal(emb.weight, DEFAULT_WEIGHT + 1);

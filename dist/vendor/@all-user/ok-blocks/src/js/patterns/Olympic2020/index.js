@@ -11,7 +11,7 @@ const _DEFAULT_OPTIONS = {
 }
 
 /*
- * Base of DOM, use to clone into instance of Emblem.
+ * Base of DOM, use to clone into instance of OKBlock.
  */
 const _BASE_DOM = (() => {
     let wrapper      = document.createElement('div');
@@ -297,4 +297,4 @@ const _TRANSITION_PROPS = [
     'border-radius',
 ];
 
-Emblem.define('Olympic2020', { _DEFAULT_OPTIONS, _BASE_DOM, _TRANSITION_PROPS, _formationTable });
+OKBlock.define('Olympic2020', { _DEFAULT_OPTIONS, _BASE_DOM, _TRANSITION_PROPS, _formationTable });

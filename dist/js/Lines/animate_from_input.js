@@ -11,10 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let init = 't';
     let olms = [];
-    olms.push(new Emblem(init[0], { size: sizeS }));
-//     olms.push(new Emblem(init[1], { size: sizeS }));
-//     olms.push(new Emblem(init[2], { size: sizeS }));
-//     olms.push(new Emblem(init[3], { size: sizeS }));
+    olms.push(new OKBlock(init[0], { pattern: 'Lines', size: sizeS }));
+//     olms.push(new OKBlock(init[1], { pattern: 'Lines', size: sizeS }));
+//     olms.push(new OKBlock(init[2], { pattern: 'Lines', size: sizeS }));
+//     olms.push(new OKBlock(init[3], { pattern: 'Lines', size: sizeS }));
     olms.forEach(e => { e.dom.style.margin = `${ MARGIN }px auto`; });
 
     let input   = document.querySelector('#user-input');

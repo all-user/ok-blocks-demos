@@ -16,18 +16,18 @@ document.addEventListener('DOMContentLoaded', function () {
     var sizeL = size - MARGIN * 2;
     var sizeS = MARGIN * 3;
 
-    olms.push(new Emblem('a', { size: sizeS, displayTime: 3111, random: true }));
-    olms.push(new Emblem('z', { size: sizeS, displayTime: 6399, random: true }));
-    olms.push(new Emblem('t', { size: sizeS, displayTime: 1477, random: true }));
+    olms.push(new OKBlock('a', { pattern: 'Lines', size: sizeS, displayTime: 3111, random: true }));
+    olms.push(new OKBlock('z', { pattern: 'Lines', size: sizeS, displayTime: 6399, random: true }));
+    olms.push(new OKBlock('t', { pattern: 'Lines', size: sizeS, displayTime: 1477, random: true }));
     olms.forEach(function (e) {
         e.dom.style.margin = MARGIN + 'px';
     });
 
-    var bigEmblem = new Emblem('/', { size: sizeL, displayTime: 1000, duration: 200 });
-    bigEmblem.dom.style.margin = MARGIN + 'px';
-    olms.push(bigEmblem);
+    var bigOKBlock = new OKBlock('/', { pattern: 'Lines', size: sizeL, displayTime: 1000, duration: 200 });
+    bigOKBlock.dom.style.margin = MARGIN + 'px';
+    olms.push(bigOKBlock);
 
-    var allValidChars = bigEmblem.allValidChars;
+    var allValidChars = bigOKBlock.allValidChars;
 
     olms.forEach(function (olm, idx) {
         olm.dom.addEventListener('click', function () {

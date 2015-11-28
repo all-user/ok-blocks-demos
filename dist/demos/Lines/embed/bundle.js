@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var genButton = document.querySelector('#generate-button');
     var codeButton = document.querySelector('#embed-button');
 
+    var PATTERN = 'Lines';
     var TITLE_COPY = 'tokyo  2020   olympic';
     var SHORT_COPY = 'hi!!   ';
     var DATE_COPY = '8/9:sun';
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var COPYS = [TITLE_COPY, LONG_COPY, SHORT_COPY, BLANK_COPY, '1234567890    ', BLANK_COPY, DATE_COPY, 'happy  day!', BLANK_COPY, 'hello  world!!'];
 
     var params = {
+        pattern: PATTERN,
         vertical: 3,
         horizon: 7,
         display: 1500,
@@ -30,7 +32,9 @@ document.addEventListener('DOMContentLoaded', function () {
     (0, _embed_helper.clickButtonHandler)(params);
 
     genButton.addEventListener('click', function (e) {
-        (0, _embed_helper.clickButtonHandler)((0, _embed_helper.getInputValues)());
+        var options = (0, _embed_helper.getInputValues)();
+        options.pattern = PATTERN;
+        (0, _embed_helper.clickButtonHandler)(options);
         scroll(0, 0);
     });
 
@@ -157,7 +161,7 @@ function clickButtonHandler(params) {
 }
 
 function generateSignboard(params) {
-    // object => EmblemGroup
+    // object => OKBlocksGroup
 
     var _computedStyles = (0, _computed_styles.computedStyles)();
 
@@ -179,7 +183,7 @@ function generateSignboard(params) {
     display = display || 1500;
     var emblemSize = SIZE / horizon;
 
-    var group = new EmblemGroup(msg[0], { pattern: pattern, length: vertical * horizon, size: emblemSize, displayTime: display, duration: duration });
+    var group = new OKBlocksGroup(msg[0], { pattern: pattern, length: vertical * horizon, size: emblemSize, displayTime: display, duration: duration });
 
     group.emblems.forEach(function (e) {
         e.dom.style.margin = '0px';

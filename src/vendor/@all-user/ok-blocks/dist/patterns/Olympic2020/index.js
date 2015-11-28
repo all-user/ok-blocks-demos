@@ -14,7 +14,7 @@ var _DEFAULT_OPTIONS = {
 };
 
 /*
- * Base of DOM, use to clone into instance of Emblem.
+ * Base of DOM, use to clone into instance of OKBlock.
  */
 var _BASE_DOM = (function () {
     var wrapper = document.createElement('div');
@@ -118,6 +118,6 @@ var _formationTable = {
  */
 var _TRANSITION_PROPS = ['top', 'left', 'background-color', 'border-radius'];
 
-Emblem.define('Olympic2020', { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DOM, _TRANSITION_PROPS: _TRANSITION_PROPS, _formationTable: _formationTable });
+OKBlock.define('Olympic2020', { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DOM, _TRANSITION_PROPS: _TRANSITION_PROPS, _formationTable: _formationTable });
 
 },{}]},{},[1]);

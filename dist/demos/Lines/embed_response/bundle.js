@@ -115,7 +115,7 @@ function clickButtonHandler(params) {
 }
 
 function generateSignboard(params) {
-    // object => EmblemGroup
+    // object => OKBlocksGroup
 
     var _computedStyles = (0, _computed_styles.computedStyles)();
 
@@ -137,7 +137,7 @@ function generateSignboard(params) {
     display = display || 1500;
     var emblemSize = SIZE / horizon;
 
-    var group = new EmblemGroup(msg[0], { pattern: pattern, length: vertical * horizon, size: emblemSize, displayTime: display, duration: duration });
+    var group = new OKBlocksGroup(msg[0], { pattern: pattern, length: vertical * horizon, size: emblemSize, displayTime: display, duration: duration });
 
     group.emblems.forEach(function (e) {
         e.dom.style.margin = '0px';

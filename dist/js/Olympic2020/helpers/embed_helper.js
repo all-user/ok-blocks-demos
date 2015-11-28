@@ -52,7 +52,7 @@ function clickButtonHandler(params) {
     }, group.emblems[0].displayTime);
 }
 
-function generateSignboard(params) { // object => EmblemGroup
+function generateSignboard(params) { // object => OKBlocksGroup
     const { SIZE } = computedStyles();
 
     if (!typeof params === 'object') { return; }
@@ -65,7 +65,7 @@ function generateSignboard(params) { // object => EmblemGroup
     let margin     = SIZE / (horizon * 5);
     let emblemSize = margin * 3;
 
-    let group = new EmblemGroup(msg[0], { pattern: pattern, length: vertical * horizon, size: emblemSize, displayTime: display, duration: duration });
+    let group = new OKBlocksGroup(msg[0], { pattern: pattern, length: vertical * horizon, size: emblemSize, displayTime: display, duration: duration });
 
     group.emblems.forEach(e => {
         e.dom.style.margin = `${ margin }px`;

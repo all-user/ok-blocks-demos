@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var LONG_COPY = 'olympicparalympicgame';
     var COPYS = [TITLE_COPY, LONG_COPY, SHORT_COPY, '1234567890    ', BLANK_COPY, DATE_COPY, 'happy     day!', BLANK_COPY, 'hello  world!!', BLANK_COPY];
 
-    var group = new EmblemGroup(TITLE_COPY, { length: 21, size: EMBLEM_SIZE, displayTime: 1500 });
+    var group = new OKBlocksGroup(TITLE_COPY, { pattern: 'Lines', length: 21, size: EMBLEM_SIZE, displayTime: 1500 });
 
     group.emblems.forEach(function (e) {
         e.dom.style.margin = MARGIN + 'px';
