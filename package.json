@@ -15,7 +15,7 @@
     "build:demos:olympic:frm_txt": "browserify -t babelify ./src/js/Olympic2020/animate_from_input.js -o ./src/demos/Olympic2020/animate_from_input/bundle.js & stylus -c ./src/stylus/animate_from_input.styl -o ./src/demos/Olympic2020/animate_from_input/bundle.css -m",
     "build:demos:olympic:embed": "browserify -t babelify ./src/js/Olympic2020/embed.js -o ./src/demos/Olympic2020/embed/bundle.js & stylus -c ./src/stylus/embed.styl -o ./src/demos/Olympic2020/embed/bundle.css -m",
     "build:demos:olympic:embed_res": "browserify -t babelify ./src/js/Olympic2020/embed_response.js -o ./src/demos/Olympic2020/embed_response/bundle.js & stylus -c ./src/stylus/embed_response.styl -o ./src/demos/Olympic2020/embed_response/bundle.css -m",
-    "vendor:copy": "cpx \"./node_modules/@all-user/ok-blocks/**/*\" ./src/vendor/@all-user/ok-blocks & cpx \"./node_modules/bootstrap/**/*\" ./src/vendor/bootstrap",
+    "vendor:copy": "cpx \"./node_modules/@all-user/**/*\" ./src/vendor/@all-user & cpx \"./node_modules/bootstrap/**/*\" ./src/vendor/bootstrap",
     "vendor": "npm run vendor:copy",
     "build:demos": "npm-run-all -p build:demos:**:*",
     "watch:dmeos": "watch \"npm run build:demos\" ./src/js/ & watch \"npm run build:demos\" ./src/stylus/",
