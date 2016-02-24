@@ -55,6 +55,7 @@ function genEmbedCode() {
     var duration = _getInputValues.duration;
     var msg = _getInputValues.msg;
 
+
     return '<iframe style="width:' + width + ';height:' + height + ';border:none;" src="https://all-user.github.io/olympic2020/demo/embed_response/index.html?vertical=' + vertical + '&horizon=' + horizon + '&display=' + display + '&duration=' + duration + '&msg=' + fixedEncodeURIComponent(msg) + '"></iframe>';
 }
 
@@ -88,9 +89,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getInputValues = exports.clickButtonHandler = undefined;
 
-var _computed_styles = require('./computed_styles.js');
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+var _computed_styles = require('./computed_styles.js');
 
 var UP_KEY = 75;
 var DOWN_KEY = 74;
@@ -167,6 +168,7 @@ function generateSignboard(params) {
 
     var SIZE = _computedStyles.SIZE;
 
+
     if (!(typeof params === 'undefined' ? 'undefined' : _typeof(params)) === 'object') {
         return;
     }
@@ -177,6 +179,7 @@ function generateSignboard(params) {
     var display = params.display;
     var duration = params.duration;
     var msg = params.msg;
+
 
     vertical = vertical || 3;
     horizon = horizon || 7;
