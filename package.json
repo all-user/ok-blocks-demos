@@ -46,9 +46,9 @@
     "watchify": "^3.3.1"
   },
   "dependencies": {
-    "@all-user/ok-blocks": "file:../ok-blocks",
-    "@all-user/ok-patterns-lines": "file:../ok-patterns-lines",
-    "@all-user/ok-patterns-olympic2020": "file:../ok-patterns-olympic2020",
+    "@all-user/ok-blocks": "^0.0.1",
+    "@all-user/ok-patterns-lines": "^0.0.1",
+    "@all-user/ok-patterns-olympic2020": "^0.0.1",
     "xtend": "^4.0.0"
   }
 }
