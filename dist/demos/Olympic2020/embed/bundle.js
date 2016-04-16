@@ -3,80 +3,86 @@
 
 var _embed_helper = require('./helpers/embed_helper.js');
 
+var _require = require('@all-user/ok-blocks');
+
+var OKBlock = _require.OKBlock;
+
+require('@all-user/ok-patterns-olympic2020')(OKBlock);
+
+
+var PATTERN = 'Olympic2020';
 document.addEventListener('DOMContentLoaded', function () {
-    var wrapper = document.querySelector('#wrapper');
-    var messageInput = document.querySelector('#message');
-    var embedOutput = document.querySelector('#embed-output');
-    var genButton = document.querySelector('#generate-button');
-    var codeButton = document.querySelector('#embed-button');
+  var wrapper = document.querySelector('#wrapper');
+  var messageInput = document.querySelector('#message');
+  var embedOutput = document.querySelector('#embed-output');
+  var genButton = document.querySelector('#generate-button');
+  var codeButton = document.querySelector('#embed-button');
 
-    var PATTERN = 'Olympic2020';
-    var TITLE_COPY = 'tokyo  2020   olympic';
-    var SHORT_COPY = 'hi!!   ';
-    var DATE_COPY = '8/9:sun';
-    var BLANK_COPY = '       ';
-    var LONG_COPY = 'olympicparalympicgame';
-    var COPYS = [TITLE_COPY, LONG_COPY, SHORT_COPY, BLANK_COPY, '1234567890    ', BLANK_COPY, DATE_COPY, 'happy  day!', BLANK_COPY, 'hello  world!!'];
+  var TITLE_COPY = 'tokyo  2020   olympic';
+  var SHORT_COPY = 'hi!!   ';
+  var DATE_COPY = '8/9:sun';
+  var BLANK_COPY = '       ';
+  var LONG_COPY = 'olympicparalympicgame';
+  var COPYS = [TITLE_COPY, LONG_COPY, SHORT_COPY, BLANK_COPY, '1234567890    ', BLANK_COPY, DATE_COPY, 'happy  day!', BLANK_COPY, 'hello  world!!'];
 
-    var params = {
-        pattern: PATTERN,
-        vertical: 3,
-        horizon: 7,
-        display: 1500,
-        duration: 1000,
-        msg: COPYS
-    };
+  var params = {
+    pattern: PATTERN,
+    vertical: 3,
+    horizon: 7,
+    display: 1500,
+    duration: 1000,
+    msg: COPYS
+  };
 
-    messageInput.textContent = COPYS.join('\n');
+  messageInput.textContent = COPYS.join('\n');
 
-    (0, _embed_helper.clickButtonHandler)(params);
+  (0, _embed_helper.clickButtonHandler)(params, wrapper);
 
-    genButton.addEventListener('click', function (e) {
-        var options = (0, _embed_helper.getInputValues)();
-        options.pattern = PATTERN;
-        (0, _embed_helper.clickButtonHandler)(options);
-        scroll(0, 0);
-    });
+  genButton.addEventListener('click', function () {
+    var options = (0, _embed_helper.getInputValues)();
+    options.pattern = PATTERN;
+    (0, _embed_helper.clickButtonHandler)(options, wrapper);
+    scroll(0, 0);
+  });
 
-    codeButton.addEventListener('click', function (e) {
-        var embedCode = genEmbedCode();
-        embedOutput.value = embedCode;
-    });
+  codeButton.addEventListener('click', function () {
+    var embedCode = genEmbedCode();
+    embedOutput.value = embedCode;
+  });
 });
 
 function genEmbedCode() {
-    var _getInputValues = (0, _embed_helper.getInputValues)();
+  var _getInputValues = (0, _embed_helper.getInputValues)();
 
-    var width = _getInputValues.width;
-    var height = _getInputValues.height;
-    var vertical = _getInputValues.vertical;
-    var horizon = _getInputValues.horizon;
-    var display = _getInputValues.display;
-    var duration = _getInputValues.duration;
-    var msg = _getInputValues.msg;
+  var width = _getInputValues.width;
+  var height = _getInputValues.height;
+  var vertical = _getInputValues.vertical;
+  var horizon = _getInputValues.horizon;
+  var display = _getInputValues.display;
+  var duration = _getInputValues.duration;
+  var msg = _getInputValues.msg;
 
-
-    return '<iframe style="width:' + width + ';height:' + height + ';border:none;" src="https://all-user.github.io/olympic2020/demo/embed_response/index.html?vertical=' + vertical + '&horizon=' + horizon + '&display=' + display + '&duration=' + duration + '&msg=' + fixedEncodeURIComponent(msg) + '"></iframe>';
+  return '<iframe style="width:' + width + ';height:' + height + ';border:none;" src="https://all-user.github.io/ok-blocks/demos/Olympic2020/embed_response/index.html?vertical=' + vertical + '&horizon=' + horizon + '&display=' + display + '&duration=' + duration + '&msg=' + fixedEncodeURIComponent(msg) + '&pattern=' + PATTERN + '"></iframe>';
 }
 
 function fixedEncodeURIComponent(str) {
-    return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
-        return '%' + c.charCodeAt(0).toString(16);
-    });
+  return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
+    return '%' + c.charCodeAt(0).toString(16);
+  });
 }
 
-},{"./helpers/embed_helper.js":3}],2:[function(require,module,exports){
+},{"./helpers/embed_helper.js":3,"@all-user/ok-blocks":"@all-user/ok-blocks","@all-user/ok-patterns-olympic2020":"@all-user/ok-patterns-olympic2020"}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 function computedStyles() {
-    var WIDTH = +getComputedStyle(document.querySelector('.container')).width.replace('px', '');
-    var PADDING = +getComputedStyle(document.querySelector('.container')).paddingLeft.replace('px', '');
-    var SIZE = WIDTH - PADDING * 2;
+  var WIDTH = +getComputedStyle(document.querySelector('.container')).width.replace('px', '');
+  var PADDING = +getComputedStyle(document.querySelector('.container')).paddingLeft.replace('px', '');
+  var SIZE = WIDTH - PADDING * 2;
 
-    return { WIDTH: WIDTH, PADDING: PADDING, SIZE: SIZE };
+  return { WIDTH: WIDTH, PADDING: PADDING, SIZE: SIZE };
 }
 
 exports.computedStyles = computedStyles;
@@ -85,7 +91,7 @@ exports.computedStyles = computedStyles;
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.getInputValues = exports.clickButtonHandler = undefined;
 
@@ -93,92 +99,99 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _computed_styles = require('./computed_styles.js');
 
+var _require = require('@all-user/ok-blocks');
+
+var OKBlocksGroup = _require.OKBlocksGroup;
+
+
 var forms = {};
 
 function getInputValues() {
-    forms.verticalInput = forms.verticalInput || document.querySelector('#vertical');
-    forms.horizonInput = forms.horizonInput || document.querySelector('#horizon');
-    forms.displayInput = forms.displayInput || document.querySelector('#display');
-    forms.durationInput = forms.durationInput || document.querySelector('#duration');
-    forms.messageInput = forms.messageInput || document.querySelector('#message');
-    forms.iWidthInput = forms.iWidthInput || document.querySelector('#i-width');
-    forms.iHeightInput = forms.iHeightInput || document.querySelector('#i-height');
+  forms.verticalInput = forms.verticalInput || document.querySelector('#vertical');
+  forms.horizonInput = forms.horizonInput || document.querySelector('#horizon');
+  forms.displayInput = forms.displayInput || document.querySelector('#display');
+  forms.durationInput = forms.durationInput || document.querySelector('#duration');
+  forms.messageInput = forms.messageInput || document.querySelector('#message');
+  forms.iWidthInput = forms.iWidthInput || document.querySelector('#i-width');
+  forms.iHeightInput = forms.iHeightInput || document.querySelector('#i-height');
 
-    var vertical = forms.verticalInput.value | 0;
-    var horizon = forms.horizonInput.value | 0;
-    var display = forms.displayInput.value | 0;
-    var duration = forms.durationInput.value | 0;
-    var msg = forms.messageInput.value.split('\n');
-    var width = forms.iWidthInput.value;
-    var height = forms.iHeightInput.value;
+  var vertical = forms.verticalInput.value | 0;
+  var horizon = forms.horizonInput.value | 0;
+  var display = forms.displayInput.value | 0;
+  var duration = forms.durationInput.value | 0;
+  var msg = forms.messageInput.value.split('\n');
+  var width = forms.iWidthInput.value;
+  var height = forms.iHeightInput.value;
 
-    return { vertical: vertical, horizon: horizon, display: display, duration: duration, msg: msg, width: width, height: height };
+  return { vertical: vertical, horizon: horizon, display: display, duration: duration, msg: msg, width: width, height: height };
 }
 
-function clickButtonHandler(params) {
+function clickButtonHandler(params, wrapper) {
+  var msg = params.msg;
 
-    if ((typeof params === 'undefined' ? 'undefined' : _typeof(params)) !== 'object') {
-        new Error('clickButtonHandler arg expect type is object.');
+
+  if ((typeof params === 'undefined' ? 'undefined' : _typeof(params)) !== 'object') {
+    new Error('clickButtonHandler arg expect type is object.');
+  }
+
+  while (wrapper.firstChild) {
+    wrapper.removeChild(wrapper.firstChild);
+  }
+
+  var group = generateSignboard(params);
+  group.appendTo(wrapper);
+
+  wrapper.addEventListener('click', function () {
+    if (group.isAnimating) {
+      group.stopAnimate.call(group);
+    } else {
+      group.resumeAnimate.call(group);
     }
+  });
 
-    while (wrapper.firstChild) {
-        wrapper.removeChild(wrapper.firstChild);
-    }
+  msg.push(msg.shift());
 
-    var group = generateSignboard(params);
-    group.appendTo(wrapper);
-
-    wrapper.addEventListener('click', function () {
-        if (group.isAnimating) {
-            group.stopAnimate.call(group);
-        } else {
-            group.resumeAnimate.call(group);
-        }
-    });
-
-    params.msg = params.msg.slice(1).concat(params.msg[0]);
-
-    setTimeout(function () {
-        group.animateFromString(params.msg, { loop: true });
-    }, group.emblems[0].displayTime);
+  setTimeout(function () {
+    group.animateFromString(params.msg, { loop: true });
+  }, group.emblems[0].displayTime);
 }
 
 function generateSignboard(params) {
-    // object => OKBlocksGroup
+  // object => OKBlocksGroup
 
-    var _computedStyles = (0, _computed_styles.computedStyles)();
+  var _computedStyles = (0, _computed_styles.computedStyles)();
 
-    var SIZE = _computedStyles.SIZE;
-
-
-    if (!(typeof params === 'undefined' ? 'undefined' : _typeof(params)) === 'object') {
-        return;
-    }
-
-    var pattern = params.pattern;
-    var vertical = params.vertical;
-    var horizon = params.horizon;
-    var display = params.display;
-    var duration = params.duration;
-    var msg = params.msg;
+  var SIZE = _computedStyles.SIZE;
 
 
-    vertical = vertical || 3;
-    horizon = horizon || 7;
-    display = display || 1500;
-    var margin = SIZE / (horizon * 5);
-    var emblemSize = margin * 3;
+  if (!(typeof params === 'undefined' ? 'undefined' : _typeof(params)) === 'object') {
+    return;
+  }
 
-    var group = new OKBlocksGroup(msg[0], { pattern: pattern, length: vertical * horizon, size: emblemSize, displayTime: display, duration: duration });
+  var pattern = params.pattern;
+  var vertical = params.vertical;
+  var horizon = params.horizon;
+  var display = params.display;
+  var duration = params.duration;
+  var msg = params.msg;
 
-    group.emblems.forEach(function (e) {
-        e.dom.style.margin = margin + 'px';
-    });
 
-    return group;
+  vertical = vertical || 3;
+  horizon = horizon || 7;
+  display = display || 1500;
+  var margin = SIZE / (horizon * 5);
+  var emblemSize = margin * 3;
+
+  var group = new OKBlocksGroup(msg[0], { pattern: pattern, length: vertical * horizon, size: emblemSize, displayTime: display, duration: duration });
+
+  group.emblems.forEach(function (e) {
+    e.dom.style.margin = margin + 'px';
+  });
+
+  return group;
 }
 
 exports.clickButtonHandler = clickButtonHandler;
 exports.getInputValues = getInputValues;
 
-},{"./computed_styles.js":2}]},{},[1]);
+},{"./computed_styles.js":2,"@all-user/ok-blocks":"@all-user/ok-blocks"}]},{},[1]);

@@ -3,61 +3,67 @@
 
 var _computed_styles = require('./helpers/computed_styles.js');
 
+var _require = require('@all-user/ok-blocks');
+
+var OKBlock = _require.OKBlock;
+
+require('@all-user/ok-patterns-olympic2020')(OKBlock);
+
 document.addEventListener('DOMContentLoaded', function () {
-    var wrapper = document.querySelector('#wrapper');
-    var olms = [];
+  var wrapper = document.querySelector('#wrapper');
+  var olms = [];
 
-    var _computedStyles = (0, _computed_styles.computedStyles)();
+  var _computedStyles = (0, _computed_styles.computedStyles)();
 
-    var SIZE = _computedStyles.SIZE;
+  var SIZE = _computedStyles.SIZE;
 
-    var size = SIZE > 500 ? 500 : SIZE;
-    var MARGIN = size / 15;
-    var sizeL = size - MARGIN * 2;
-    var sizeS = MARGIN * 3;
+  var size = SIZE > 500 ? 500 : SIZE;
+  var MARGIN = size / 15;
+  var sizeL = size - MARGIN * 2;
+  var sizeS = MARGIN * 3;
 
-    olms.push(new OKBlock('a', { size: sizeS, displayTime: 3111, random: true, pattern: 'Olympic2020' }));
-    olms.push(new OKBlock('z', { size: sizeS, displayTime: 6399, random: true, pattern: 'Olympic2020' }));
-    olms.push(new OKBlock('t', { size: sizeS, displayTime: 1477, random: true, pattern: 'Olympic2020' }));
-    olms.forEach(function (e) {
-        e.dom.style.margin = MARGIN + 'px';
+  olms.push(new OKBlock('a', { size: sizeS, displayTime: 3111, random: true, pattern: 'Olympic2020' }));
+  olms.push(new OKBlock('z', { size: sizeS, displayTime: 6399, random: true, pattern: 'Olympic2020' }));
+  olms.push(new OKBlock('t', { size: sizeS, displayTime: 1477, random: true, pattern: 'Olympic2020' }));
+  olms.forEach(function (e) {
+    e.dom.style.margin = MARGIN + 'px';
+  });
+
+  var bigOKBlock = new OKBlock('/', { size: sizeL, displayTime: 1000, duration: 800, pattern: 'Olympic2020' });
+  bigOKBlock.dom.style.margin = MARGIN + 'px';
+  olms.push(bigOKBlock);
+
+  var allValidChars = bigOKBlock.allValidChars;
+
+  olms.forEach(function (olm) {
+    olm.dom.addEventListener('click', function () {
+      if (olm.isAnimating) {
+        olm.stopAnimate.call(olm);
+      } else {
+        olm.resumeAnimate.call(olm);
+      }
     });
 
-    var bigOKBlock = new OKBlock('/', { size: sizeL, displayTime: 1000, duration: 800, pattern: 'Olympic2020' });
-    bigOKBlock.dom.style.margin = MARGIN + 'px';
-    olms.push(bigOKBlock);
+    wrapper.appendChild(olm.dom);
 
-    var allValidChars = bigOKBlock.allValidChars;
-
-    olms.forEach(function (olm, idx) {
-        olm.dom.addEventListener('click', function () {
-            if (olm.isAnimating) {
-                olm.stopAnimate.call(olm);
-            } else {
-                olm.resumeAnimate.call(olm);
-            }
-        });
-
-        wrapper.appendChild(olm.dom);
-
-        setTimeout(function () {
-            olm.animateFromString(allValidChars, { loop: true });
-        }, 1000);
-    });
+    setTimeout(function () {
+      olm.animateFromString(allValidChars, { loop: true });
+    }, 1000);
+  });
 });
 
-},{"./helpers/computed_styles.js":2}],2:[function(require,module,exports){
+},{"./helpers/computed_styles.js":2,"@all-user/ok-blocks":"@all-user/ok-blocks","@all-user/ok-patterns-olympic2020":"@all-user/ok-patterns-olympic2020"}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 function computedStyles() {
-    var WIDTH = +getComputedStyle(document.querySelector('.container')).width.replace('px', '');
-    var PADDING = +getComputedStyle(document.querySelector('.container')).paddingLeft.replace('px', '');
-    var SIZE = WIDTH - PADDING * 2;
+  var WIDTH = +getComputedStyle(document.querySelector('.container')).width.replace('px', '');
+  var PADDING = +getComputedStyle(document.querySelector('.container')).paddingLeft.replace('px', '');
+  var SIZE = WIDTH - PADDING * 2;
 
-    return { WIDTH: WIDTH, PADDING: PADDING, SIZE: SIZE };
+  return { WIDTH: WIDTH, PADDING: PADDING, SIZE: SIZE };
 }
 
 exports.computedStyles = computedStyles;

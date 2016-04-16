@@ -1,3 +1,5 @@
+let { OKBlock } = require('@all-user/ok-blocks');
+require('@all-user/ok-patterns-lines')(OKBlock);
 import { clickButtonHandler } from './helpers/embed_helper.js';
 
 document.addEventListener('DOMContentLoaded', () => {

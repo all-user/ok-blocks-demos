@@ -1,4 +1,6 @@
 import { computedStyles } from './helpers/computed_styles.js';
+let { OKBlock } = require('@all-user/ok-blocks');
+require('@all-user/ok-patterns-olympic2020')(OKBlock);
 
 document.addEventListener('DOMContentLoaded', () => {
   let wrapper    = document.querySelector('#wrapper');

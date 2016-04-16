@@ -1,5 +1,8 @@
+let { OKBlock } = require('@all-user/ok-blocks');
+require('@all-user/ok-patterns-lines')(OKBlock);
 import { clickButtonHandler, getInputValues } from './helpers/embed_helper.js';
 
+const PATTERN    = 'Lines';
 document.addEventListener('DOMContentLoaded', () => {
   let wrapper      = document.querySelector('#wrapper');
   let messageInput = document.querySelector('#message');
@@ -7,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let genButton    = document.querySelector('#generate-button');
   let codeButton   = document.querySelector('#embed-button');
 
-  const PATTERN    = 'Lines';
   const TITLE_COPY = 'tokyo  2020   olympic';
   const SHORT_COPY = 'hi!!   ';
   const DATE_COPY  = '8/9:sun';
@@ -55,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function genEmbedCode() {
   let { width, height, vertical, horizon, display, duration, msg } = getInputValues();
-  return `<iframe style="width:${ width };height:${ height };border:none;" src="https://all-user.github.io/olympic2020/demo/embed_response/index.html?vertical=${ vertical }&horizon=${ horizon }&display=${ display }&duration=${ duration }&msg=${ fixedEncodeURIComponent(msg) }"></iframe>`;
+  return `<iframe style="width:${ width };height:${ height };border:none;" src="https://all-user.github.io/ok-blocks/demos/Lines/embed_response/index.html?vertical=${ vertical }&horizon=${ horizon }&display=${ display }&duration=${ duration }&msg=${ fixedEncodeURIComponent(msg) }&pattern=${ PATTERN }"></iframe>`;
 }
 
 function fixedEncodeURIComponent(str) {

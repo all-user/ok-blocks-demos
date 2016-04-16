@@ -1,4 +1,5 @@
 import { computedStyles } from './computed_styles.js';
+let { OKBlocksGroup } = require('@all-user/ok-blocks');
 
 let forms = {};
 

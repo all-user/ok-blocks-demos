@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Embed Signboard</title>
 
-    <!--   OKBlockとOKBlocksGroupの読み込み -->
-    <script src="../../../vendor/@all-user/ok-blocks/dist/bundle.js"></script>
+    <!--   ok-blocks, ok-patternsの読み込み -->
+    <script src="../../common.js"></script>
 
-    <!--   パターンの読み込み -->
-    <script src="../../../vendor/@all-user/ok-patterns-lines/dist/bundle.js"></script>
+    <!--   ok-patterns-linesのCSSを読み込み -->
     <link rel="stylesheet" href="../../../vendor/@all-user/ok-patterns-lines/dist/bundle.css">
 
     <!--   デモページ共通のファイル読み込み -->
@@ -48,7 +47,7 @@
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="input-group">
                         <span class="input-group-addon" id="duration-addon">Duration (ms)</span>
-                        <input type="text" id="duration" class="form-control" value="1000" placeholder="1000" aria-describedby="duration-addon">
+                        <input type="text" id="duration" class="form-control" value="200" placeholder="200" aria-describedby="duration-addon">
                     </div>
                 </div>
             </div>

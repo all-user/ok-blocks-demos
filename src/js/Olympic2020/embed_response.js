@@ -1,5 +1,5 @@
-'use strict';
-
+let { OKBlock } = require('@all-user/ok-blocks');
+require('@all-user/ok-patterns-olympic2020')(OKBlock);
 import { clickButtonHandler } from './helpers/embed_helper.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,8 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return params;
   }, {});
 
-  params.msg     = params.msg.split(',');
-  params.patters = 'Olympic2020';
+  params.msg = params.msg.split(',');
 
   clickButtonHandler(params, document.querySelector('#wrapper'));
 });
