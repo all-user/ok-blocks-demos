@@ -75,12 +75,13 @@ function generateSignboard(params) { // object => OKBlocksGroup
   vertical = vertical || 3;
   horizon  = horizon  || 7;
   display  = display  || 1500;
-  let emblemSize = SIZE / horizon;
+  let margin     = SIZE / (horizon * 5);
+  let emblemSize = margin * 3;
 
   let group = new OKBlocksGroup(msg[0], { pattern: pattern, length: vertical * horizon, size: emblemSize, displayTime: display, duration: duration });
 
   group.emblems.forEach(e => {
-    e.dom.style.margin = '0px';
+    e.dom.style.margin = `${ margin }px`;
   });
 
   return group;
