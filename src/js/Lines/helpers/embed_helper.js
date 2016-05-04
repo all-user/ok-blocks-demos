@@ -69,7 +69,7 @@ function clickButtonHandler(params, wrapper) {
 function generateSignboard(params) { // object => OKBlocksGroup
   const { SIZE } = computedStyles();
 
-  if (!typeof params === 'object') { return; }
+  if (typeof params !== 'object') { return; }
 
   let { pattern, vertical, horizon, display, duration, msg } = params;
 
