@@ -9,13 +9,14 @@ html(lang="ja")
     // デモページ共通のファイル読み込み
     link(rel="stylesheet", href="../../common.css")
     // ページ専用のファイル読み込み
-    link(rel="stylesheet", href="bundle.css")
+    link(rel="stylesheet", href="index.css")
     script(src="bundle.js")
   body
     .container
       #wrapper
         - var i = 0;
-        while i < 8
-          .mask(class=i++)
+        while i < 10 
+          .mask(class="num-#{i++}")
+      iframe(width="", height="", src="", frameborder="0")
       
     
