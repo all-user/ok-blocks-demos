@@ -1,4 +1,10 @@
+/* globals YT */
 document.addEventListener('DOMContentLoaded', () => {
+  let tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  let firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
   let { OKBlock } = require('@all-user/ok-blocks');
   let { OKBlocksGroup } = require('@all-user/ok-blocks');
   require('@all-user/ok-patterns-lines')(OKBlock);
@@ -13,20 +19,60 @@ document.addEventListener('DOMContentLoaded', () => {
   const LINE_COLOR = 'transparent';
   // const PADDING_COLOR = '#aaa9a7';
   const PADDING_COLOR = 'white';
-  // const VIDEO_SRC = 'https://www.youtube.com/embed/7eyYe-MN1Nc?rel=0&controls=0&showinfo=0&autoplay=1';
-  // const VIDEO_SRC = 'https://www.youtube.com/embed/5Ehd4cFEvnQ?rel=0&controls=0&showinfo=0&autoplay=1';
-  const VIDEO_SRC = 'https://www.youtube.com/embed/VOgpV0jwhDc?rel=0&controls=0&showinfo=0&autoplay=1&loop=1&playlist=VOgpV0jwhDc&modestbranding=0';
-  // const VIDEO_SRC = 'https://www.youtube.com/embed/PC77lsC_q_U?rel=0&controls=0&showinfo=0&autoplay=1';
-  // const VIDEO_SRC = 'https://www.youtube.com/embed/tyHa3U-iRaM?rel=0&controls=0&showinfo=0&autoplay=1';
-  let iframe = document.querySelector('.container iframe');
+  const VIDEO_IDS = [
+    '7eyYe-MN1Nc',
+    '5Ehd4cFEvnQ',
+    'VOgpV0jwhDc',
+    'PC77lsC_q_U',
+    'tyHa3U-iRaM'
+  ];
+  const getVideoSrc = id => {
+    return `http://www.youtube.com/embed/${id}?enablejsapi=1&autoplay=1&controls=0&showinfo=0&modestbranding=0`;
+  };
+
+  let iframe = document.querySelector('#player');
   let wrapper = document.querySelector('#wrapper');
+  let videoIndex = 2;
+  const SHOW_DURATION = 6;
   const wrapperWidth = GRID_SIZE * 23;
   const wrapperHeight = GRID_SIZE * 13;
   wrapper.style.width = `${wrapperWidth}px`;
   wrapper.style.height = `${wrapperHeight}px`;
   iframe.setAttribute('width', wrapperWidth - 2);
   iframe.setAttribute('height', wrapperHeight - 2);
-  iframe.setAttribute('src', VIDEO_SRC);
+  iframe.setAttribute('src', getVideoSrc(VIDEO_IDS[videoIndex]));
+  iframe.addEventListener('load', window.onYouTubeIframeAPIReady);
+
+  let player;
+  window.onYouTubeIframeAPIReady = () => {
+    player = new YT.Player('player', {
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  };
+
+  const onPlayerReady = ev => {
+    let video = ev.target;
+    video.mute();
+    video.setPlaybackRate(1);
+  };
+  const onPlayerStateChange = ev => {
+    switch (ev.data) {
+    case YT.PlayerState.PLAYING:
+      console.log('playing');
+      setTimeout(player.pauseVideo.bind(player), SHOW_DURATION * 1000);
+      break;
+    case YT.PlayerState.ENDED:
+    case YT.PlayerState.PAUSED:
+      console.log('ended, paused');
+      player.loadVideoById(VIDEO_IDS[++videoIndex % VIDEO_IDS.length], player.getDuration() * Math.random());
+      break;
+    default:
+    }
+  };
+
   let minBlocks = new OKBlocksGroup('04:39', { pattern: 'Lines', size: MIN_BLOCK_SIZE, duration: 200 });
   minBlocks.emblems.forEach((block, i) => {
     block.dom.classList.add(`min-block-${i}`);
@@ -51,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
   secBlocks.appendTo(wrapper);
   secBlocks.options = { loop: true, displayTime: 1000 };
   secBlocks.animateFromString('1112131415161718192021222324252627282930');
-  [...'_'.repeat(9)].forEach((_, i) => {
+  [...'_'.repeat(6)].forEach((_, i) => {
     let mask = document.querySelector(`.mask.num-${i}`);
     let style = mask.style;
     switch (i) {

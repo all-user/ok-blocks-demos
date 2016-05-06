@@ -52,8 +52,8 @@
   "author": "Keita Okamoto <ok@aaa.email.ne.jp>",
   "license": "MIT",
   "devDependencies": {
-    "@all-user/ok-blocks": "0.0.6",
-    "@all-user/ok-patterns-lines": "0.0.3",
+    "@all-user/ok-blocks": "0.0.7",
+    "@all-user/ok-patterns-lines": "0.1.0",
     "@all-user/ok-patterns-olympic2020": "0.0.3",
     "babel-core": "^6.7.4",
     "babel-eslint": "^6.0.2",

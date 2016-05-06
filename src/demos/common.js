@@ -1,130 +1,6 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-/*
- * default options
- */
-
-var _DEFAULT_OPTIONS = {
-  displayTime: 1500,
-  duration: 1000,
-  loop: false,
-  random: false,
-  pedal: true
-};
-
-/*
- * Base of DOM, use to clone into instance of OKBlock.
- */
-var _BASE_DOM = function () {
-  var wrapper = document.createElement('div');
-  var part = document.createElement('div');
-  var whiteCircleW = document.createElement('div');
-  var whiteCircle = document.createElement('div');
-  var docFrag = document.createDocumentFragment();
-
-  wrapper.className = 'olympic-emblem';
-  part.className = 'part';
-  whiteCircleW.className = 'white_circle_wrapper';
-  whiteCircle.className = 'white_circle';
-
-  whiteCircleW.appendChild(whiteCircle);
-  part.appendChild(whiteCircleW);
-
-  // in emmet syntax.
-  // div.wrapper > div.part * 9
-  for (var i = 0; i < 9; i++) {
-    var _part = part.cloneNode(true);
-    _part.classList.add('pos_' + i % 3 + '_' + (i / 3 | 0));
-    docFrag.appendChild(_part);
-  }
-  wrapper.appendChild(docFrag);
-
-  return wrapper;
-}();
-
-/*
- * Parts className table.
- */
-var _G_R0 = 'part arc gold rotate0 rotate-default';
-var _G_R90 = 'part arc gold rotate90 rotate-default';
-var _G_R180 = 'part arc gold rotate180 rotate-default';
-var _G_R270 = 'part arc gold rotate270 rotate-default';
-var _S_R0 = 'part arc silver rotate0 rotate-default';
-var _S_R90 = 'part arc silver rotate90 rotate-default';
-var _S_R180 = 'part arc silver rotate180 rotate-default';
-var _S_R270 = 'part arc silver rotate270 rotate-default';
-var _P1 = 'part pole1 gray';
-var _P2_V = 'part pole2_v gray';
-var _P2_H = 'part pole2_h gray';
-var _P3_V = 'part pole3_v gray';
-var _P3_H = 'part pole3_h gray';
-var _C_S = 'part circle_s red';
-var _C_L = 'part circle_l red';
-var _BL = 'part blank';
-
-/*
- * Formation settings of all characters.
- */
-var _formationTable = {
-  'a': [_G_R180, _P1, _G_R270, _S_R0, _C_S, _S_R90, _P1, _BL, _P1],
-  'b': [_BL, _P3_V, _G_R90, _BL, _BL, _S_R90, _BL, _BL, _S_R180],
-  'c': [_S_R180, _P1, _G_R90, _P1, _BL, _BL, _G_R90, _P1, _S_R180],
-  'd': [_P3_V, _S_R90, _G_R270, _BL, _BL, _P1, _BL, _G_R180, _S_R0],
-  'e': [_BL, _P3_V, _G_R90, _BL, _BL, _C_S, _BL, _BL, _S_R180],
-  'f': [_BL, _P3_V, _S_R90, _BL, _BL, _C_S, _BL, _BL, _BL],
-  'g': [_P3_V, _G_R0, _BL, _BL, _BL, _S_R90, _BL, _C_S, _G_R180],
-  'h': [_P3_V, _BL, _P3_V, _BL, _C_S, _BL, _BL, _BL, _BL],
-  'i': [_BL, _C_S, _BL, _BL, _P2_V, _BL, _BL, _BL, _BL],
-  'j': [_BL, _BL, _P2_V, _BL, _BL, _BL, _S_R90, _C_S, _G_R180],
-  'k': [_P3_V, _BL, _G_R0, _BL, _C_S, _BL, _BL, _BL, _S_R270],
-  'l': [_P3_V, _BL, _BL, _BL, _BL, _BL, _BL, _C_S, _G_R180],
-  'm': [_G_R270, _BL, _S_R180, _P2_V, _C_S, _P2_V, _BL, _BL, _BL],
-  'n': [_P3_V, _G_R270, _P3_V, _BL, _C_S, _BL, _BL, _S_R90, _BL],
-  'o': [_S_R180, _P1, _G_R270, _P1, _BL, _P1, _G_R90, _P1, _S_R0],
-  'p': [_P3_V, _C_S, _G_R90, _BL, _S_R270, _BL, _BL, _BL, _BL],
-  'q': [_S_R180, _P1, _G_R270, _P1, _BL, _P1, _G_R90, _P1, _C_S],
-  'r': [_P3_V, _C_S, _S_R90, _BL, _P1, _S_R180, _BL, _BL, _G_R270],
-  's': [_G_R180, _P3_V, _S_R90, _S_R90, _BL, _BL, _G_R270, _BL, _C_S],
-  't': [_G_R0, _P3_V, _C_S, _BL, _BL, _BL, _BL, _BL, _S_R180],
-  'u': [_P2_V, _BL, _C_S, _P1, _BL, _P1, _G_R90, _P1, _S_R0],
-  'v': [_S_R270, _BL, _S_R180, _G_R90, _BL, _G_R0, _BL, _P1, _BL],
-  'w': [_S_R270, _BL, _G_R180, _S_R270, _P1, _G_R180, _G_R90, _BL, _S_R0],
-  'x': [_G_R90, _BL, _S_R0, _BL, _P1, _BL, _S_R180, _BL, _G_R270],
-  'y': [_G_R270, _BL, _S_R180, _BL, _C_S, _BL, _BL, _P1, _BL],
-  'z': [_G_R0, _P1, _S_R0, _BL, _C_S, _BL, _S_R180, _P1, _S_R180],
-  '1': [_G_R180, _P3_V, _BL, _BL, _BL, _BL, _BL, _BL, _BL],
-  '2': [_S_R0, _P3_V, _G_R270, _BL, _BL, _S_R0, _C_S, _BL, _G_R180],
-  '3': [_G_R0, _P1, _G_R270, _BL, _C_S, _BL, _S_R270, _P1, _S_R0],
-  '4': [_BL, _S_R180, _BL, _G_R180, _C_S, _P1, _BL, _P1, _BL],
-  '5': [_BL, _P1, _S_R0, _BL, _G_R90, _P1, _BL, _C_S, _S_R180],
-  '6': [_BL, _S_R0, _BL, _BL, _P2_V, _G_R90, _BL, _BL, _S_R180],
-  '7': [_G_R0, _C_S, _P3_V, _BL, _BL, _BL, _BL, _BL, _BL],
-  '8': [_S_R0, _C_S, _S_R90, _G_R0, _BL, _G_R90, _S_R270, _BL, _S_R180],
-  '9': [_G_R0, _P2_V, _BL, _S_R270, _BL, _BL, _BL, _G_R180, _BL],
-  '0': [_C_L, _BL, _BL, _BL, _BL, _BL, _BL, _BL, _BL],
-  '!': [_P2_V, _BL, _BL, _BL, _BL, _BL, _C_S, _BL, _BL],
-  '.': [_BL, _BL, _BL, _BL, _BL, _BL, _P1, _BL, _BL],
-  "'": [_P1, _BL, _BL, _G_R0, _BL, _BL, _BL, _BL, _BL],
-  ':': [_P1, _BL, _BL, _BL, _BL, _BL, _P1, _BL, _BL],
-  ';': [_P1, _BL, _BL, _BL, _BL, _BL, _C_S, _BL, _BL],
-  '/': [[_G_R0, 'pos_3_0'], _BL, _S_R180, _BL, _S_R180, _G_R0, _S_R180, _G_R0, _BL],
-  '_': [_BL, _BL, _BL, _BL, _BL, _BL, _P2_H, _BL, _BL],
-  ' ': [_BL, _BL, _BL, _BL, _BL, _BL, _BL, _BL, _BL]
-};
-
-/*
- * Transition settings.
- */
-var _TRANSITION_PROPS = ['top', 'left', 'background-color', 'border-radius'];
-
-module.exports = function (OKBlock) {
-  OKBlock.define('Olympic2020', { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DOM, _TRANSITION_PROPS: _TRANSITION_PROPS, _formationTable: _formationTable });
-  return OKBlock;
-};
-},{}],2:[function(require,module,exports){
-'use strict';
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -252,14 +128,13 @@ var OKBlock = function () {
             if (isLast) {
               if (_this[_LOOP_PROP]) {
                 setTimeout(function () {
-                  _this.animateFromString.call(_this, str);
                   resolve();
+                  _this.animateFromString.call(_this, str);
                 }, _this[_DISPLAY_TIME_PROP]);
-                return;
               } else {
                 setTimeout(reject, _this[_DISPLAY_TIME_PROP]);
-                return;
               }
+              return;
             }
             if (!_this[_IS_ANIMATING_PROP]) {
               _this[_RESUME_PROP] = resolve;
@@ -268,8 +143,10 @@ var OKBlock = function () {
             }
           });
         });
-      }, Promise.resolve()).catch(function () {
+      }, Promise.resolve()).catch(function (err) {
         _this[_IS_ANIMATING_PROP] = false;
+        console.log('OKBlock: cansel before animation.');
+        console.log(err);
       });
     }
 
@@ -539,7 +416,7 @@ function _updateTransitionConfig() {
 var _ROTATE_TABLE = ['rotate0', 'rotate90', 'rotate180', 'rotate270'];
 
 module.exports = OKBlock;
-},{"xtend":5}],3:[function(require,module,exports){
+},{"xtend":6}],2:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -903,14 +780,13 @@ function _animateFromStringArray(strArr, opt) {
         if (isLast) {
           if (_this2.loop) {
             setTimeout(function () {
-              _animateFromStringArray.call(_this2, strArr);
               resolve();
+              _animateFromStringArray.call(_this2, strArr);
             }, _this2.displayTime);
-            return;
           } else {
             _this2[_IS_ANIMATING_PROP] = false;
-            return;
           }
+          return;
         }
         if (!_this2[_IS_ANIMATING_PROP]) {
           _this2[_RESUME_PROP] = resolve;
@@ -919,39 +795,20 @@ function _animateFromStringArray(strArr, opt) {
         }
       });
     });
-  }, Promise.resolve()).catch(function () {
-    console.log('cansel before animation.');
+  }, Promise.resolve()).catch(function (err) {
+    _this2[_IS_ANIMATING_PROP] = false;
+    console.log('OKBlocksGroup: cansel before animation.');
+    console.log(err);
   });
 }
 
 module.exports = OKBlocksGroup;
-},{"./OKBlock.js":2}],4:[function(require,module,exports){
+},{"./OKBlock.js":1}],3:[function(require,module,exports){
 'use strict';
 
 module.exports.OKBlock = require('./OKBlock.js');
 module.exports.OKBlocksGroup = require('./OKBlocksGroup.js');
-},{"./OKBlock.js":2,"./OKBlocksGroup.js":3}],5:[function(require,module,exports){
-module.exports = extend
-
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-function extend() {
-    var target = {}
-
-    for (var i = 0; i < arguments.length; i++) {
-        var source = arguments[i]
-
-        for (var key in source) {
-            if (hasOwnProperty.call(source, key)) {
-                target[key] = source[key]
-            }
-        }
-    }
-
-    return target
-}
-
-},{}],6:[function(require,module,exports){
+},{"./OKBlock.js":1,"./OKBlocksGroup.js":2}],4:[function(require,module,exports){
 'use strict';
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -1206,11 +1063,156 @@ module.exports = function (OKBlock) {
 
   return OKBlock;
 };
+},{}],5:[function(require,module,exports){
+'use strict';
+
+/*
+ * default options
+ */
+
+var _DEFAULT_OPTIONS = {
+  displayTime: 1500,
+  duration: 1000,
+  loop: false,
+  random: false,
+  pedal: true
+};
+
+/*
+ * Base of DOM, use to clone into instance of OKBlock.
+ */
+var _BASE_DOM = function () {
+  var wrapper = document.createElement('div');
+  var part = document.createElement('div');
+  var whiteCircleW = document.createElement('div');
+  var whiteCircle = document.createElement('div');
+  var docFrag = document.createDocumentFragment();
+
+  wrapper.className = 'olympic-emblem';
+  part.className = 'part';
+  whiteCircleW.className = 'white_circle_wrapper';
+  whiteCircle.className = 'white_circle';
+
+  whiteCircleW.appendChild(whiteCircle);
+  part.appendChild(whiteCircleW);
+
+  // in emmet syntax.
+  // div.wrapper > div.part * 9
+  for (var i = 0; i < 9; i++) {
+    var _part = part.cloneNode(true);
+    _part.classList.add('pos_' + i % 3 + '_' + (i / 3 | 0));
+    docFrag.appendChild(_part);
+  }
+  wrapper.appendChild(docFrag);
+
+  return wrapper;
+}();
+
+/*
+ * Parts className table.
+ */
+var _G_R0 = 'part arc gold rotate0 rotate-default';
+var _G_R90 = 'part arc gold rotate90 rotate-default';
+var _G_R180 = 'part arc gold rotate180 rotate-default';
+var _G_R270 = 'part arc gold rotate270 rotate-default';
+var _S_R0 = 'part arc silver rotate0 rotate-default';
+var _S_R90 = 'part arc silver rotate90 rotate-default';
+var _S_R180 = 'part arc silver rotate180 rotate-default';
+var _S_R270 = 'part arc silver rotate270 rotate-default';
+var _P1 = 'part pole1 gray';
+var _P2_V = 'part pole2_v gray';
+var _P2_H = 'part pole2_h gray';
+var _P3_V = 'part pole3_v gray';
+var _P3_H = 'part pole3_h gray';
+var _C_S = 'part circle_s red';
+var _C_L = 'part circle_l red';
+var _BL = 'part blank';
+
+/*
+ * Formation settings of all characters.
+ */
+var _formationTable = {
+  'a': [_G_R180, _P1, _G_R270, _S_R0, _C_S, _S_R90, _P1, _BL, _P1],
+  'b': [_BL, _P3_V, _G_R90, _BL, _BL, _S_R90, _BL, _BL, _S_R180],
+  'c': [_S_R180, _P1, _G_R90, _P1, _BL, _BL, _G_R90, _P1, _S_R180],
+  'd': [_P3_V, _S_R90, _G_R270, _BL, _BL, _P1, _BL, _G_R180, _S_R0],
+  'e': [_BL, _P3_V, _G_R90, _BL, _BL, _C_S, _BL, _BL, _S_R180],
+  'f': [_BL, _P3_V, _S_R90, _BL, _BL, _C_S, _BL, _BL, _BL],
+  'g': [_P3_V, _G_R0, _BL, _BL, _BL, _S_R90, _BL, _C_S, _G_R180],
+  'h': [_P3_V, _BL, _P3_V, _BL, _C_S, _BL, _BL, _BL, _BL],
+  'i': [_BL, _C_S, _BL, _BL, _P2_V, _BL, _BL, _BL, _BL],
+  'j': [_BL, _BL, _P2_V, _BL, _BL, _BL, _S_R90, _C_S, _G_R180],
+  'k': [_P3_V, _BL, _G_R0, _BL, _C_S, _BL, _BL, _BL, _S_R270],
+  'l': [_P3_V, _BL, _BL, _BL, _BL, _BL, _BL, _C_S, _G_R180],
+  'm': [_G_R270, _BL, _S_R180, _P2_V, _C_S, _P2_V, _BL, _BL, _BL],
+  'n': [_P3_V, _G_R270, _P3_V, _BL, _C_S, _BL, _BL, _S_R90, _BL],
+  'o': [_S_R180, _P1, _G_R270, _P1, _BL, _P1, _G_R90, _P1, _S_R0],
+  'p': [_P3_V, _C_S, _G_R90, _BL, _S_R270, _BL, _BL, _BL, _BL],
+  'q': [_S_R180, _P1, _G_R270, _P1, _BL, _P1, _G_R90, _P1, _C_S],
+  'r': [_P3_V, _C_S, _S_R90, _BL, _P1, _S_R180, _BL, _BL, _G_R270],
+  's': [_G_R180, _P3_V, _S_R90, _S_R90, _BL, _BL, _G_R270, _BL, _C_S],
+  't': [_G_R0, _P3_V, _C_S, _BL, _BL, _BL, _BL, _BL, _S_R180],
+  'u': [_P2_V, _BL, _C_S, _P1, _BL, _P1, _G_R90, _P1, _S_R0],
+  'v': [_S_R270, _BL, _S_R180, _G_R90, _BL, _G_R0, _BL, _P1, _BL],
+  'w': [_S_R270, _BL, _G_R180, _S_R270, _P1, _G_R180, _G_R90, _BL, _S_R0],
+  'x': [_G_R90, _BL, _S_R0, _BL, _P1, _BL, _S_R180, _BL, _G_R270],
+  'y': [_G_R270, _BL, _S_R180, _BL, _C_S, _BL, _BL, _P1, _BL],
+  'z': [_G_R0, _P1, _S_R0, _BL, _C_S, _BL, _S_R180, _P1, _S_R180],
+  '1': [_G_R180, _P3_V, _BL, _BL, _BL, _BL, _BL, _BL, _BL],
+  '2': [_S_R0, _P3_V, _G_R270, _BL, _BL, _S_R0, _C_S, _BL, _G_R180],
+  '3': [_G_R0, _P1, _G_R270, _BL, _C_S, _BL, _S_R270, _P1, _S_R0],
+  '4': [_BL, _S_R180, _BL, _G_R180, _C_S, _P1, _BL, _P1, _BL],
+  '5': [_BL, _P1, _S_R0, _BL, _G_R90, _P1, _BL, _C_S, _S_R180],
+  '6': [_BL, _S_R0, _BL, _BL, _P2_V, _G_R90, _BL, _BL, _S_R180],
+  '7': [_G_R0, _C_S, _P3_V, _BL, _BL, _BL, _BL, _BL, _BL],
+  '8': [_S_R0, _C_S, _S_R90, _G_R0, _BL, _G_R90, _S_R270, _BL, _S_R180],
+  '9': [_G_R0, _P2_V, _BL, _S_R270, _BL, _BL, _BL, _G_R180, _BL],
+  '0': [_C_L, _BL, _BL, _BL, _BL, _BL, _BL, _BL, _BL],
+  '!': [_P2_V, _BL, _BL, _BL, _BL, _BL, _C_S, _BL, _BL],
+  '.': [_BL, _BL, _BL, _BL, _BL, _BL, _P1, _BL, _BL],
+  "'": [_P1, _BL, _BL, _G_R0, _BL, _BL, _BL, _BL, _BL],
+  ':': [_P1, _BL, _BL, _BL, _BL, _BL, _P1, _BL, _BL],
+  ';': [_P1, _BL, _BL, _BL, _BL, _BL, _C_S, _BL, _BL],
+  '/': [[_G_R0, 'pos_3_0'], _BL, _S_R180, _BL, _S_R180, _G_R0, _S_R180, _G_R0, _BL],
+  '_': [_BL, _BL, _BL, _BL, _BL, _BL, _P2_H, _BL, _BL],
+  ' ': [_BL, _BL, _BL, _BL, _BL, _BL, _BL, _BL, _BL]
+};
+
+/*
+ * Transition settings.
+ */
+var _TRANSITION_PROPS = ['top', 'left', 'background-color', 'border-radius'];
+
+module.exports = function (OKBlock) {
+  OKBlock.define('Olympic2020', { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DOM, _TRANSITION_PROPS: _TRANSITION_PROPS, _formationTable: _formationTable });
+  return OKBlock;
+};
+},{}],6:[function(require,module,exports){
+module.exports = extend
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function extend() {
+    var target = {}
+
+    for (var i = 0; i < arguments.length; i++) {
+        var source = arguments[i]
+
+        for (var key in source) {
+            if (hasOwnProperty.call(source, key)) {
+                target[key] = source[key]
+            }
+        }
+    }
+
+    return target
+}
+
 },{}],"@all-user/ok-blocks":[function(require,module,exports){
 module.exports = require('./lib');
 
-},{"./lib":4}],"@all-user/ok-patterns-lines":[function(require,module,exports){
+},{"./lib":3}],"@all-user/ok-patterns-lines":[function(require,module,exports){
 arguments[4]["@all-user/ok-blocks"][0].apply(exports,arguments)
-},{"./lib":6,"dup":"@all-user/ok-blocks"}],"@all-user/ok-patterns-olympic2020":[function(require,module,exports){
+},{"./lib":4,"dup":"@all-user/ok-blocks"}],"@all-user/ok-patterns-olympic2020":[function(require,module,exports){
 arguments[4]["@all-user/ok-blocks"][0].apply(exports,arguments)
-},{"./lib":1,"dup":"@all-user/ok-blocks"}]},{},[]);
+},{"./lib":5,"dup":"@all-user/ok-blocks"}]},{},[]);
