@@ -12,11 +12,8 @@ html(lang="ja")
     link(rel="stylesheet", href="index.css")
     script(src="bundle.js")
   body
-    .container
-      #wrapper
-        - var i = 0;
-        while i < 10 
-          .mask(class="num-#{i++}")
+    #wrapper
+    #video-wrapper
       iframe#player(type="text/html",frameborder=0)
       
     

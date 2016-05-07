@@ -1,4 +1,8 @@
 /* globals YT */
+import keyStringDetector from 'key-string';
+const moment = require('moment');
+const throttle = require('lodash/throttle');
+
 document.addEventListener('DOMContentLoaded', () => {
   let tag = document.createElement('script');
   tag.src = "https://www.youtube.com/iframe_api";
@@ -9,15 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let { OKBlocksGroup } = require('@all-user/ok-blocks');
   require('@all-user/ok-patterns-lines')(OKBlock);
 
-  const { computedStyles } = require('./helpers/computed_styles.js');
-  const WRAPPER_SIZE = computedStyles().SIZE;
-  const GRID_SIZE = WRAPPER_SIZE / 23;
-  const MARGIN_SIZE = GRID_SIZE * 2;
-  const MIN_BLOCK_SIZE = GRID_SIZE * 3;
-  const SEC_BLOCK_SIZE = GRID_SIZE * 8;
+  const WINDOW_RATIO = innerHeight / innerWidth;
+  const APP_RATIO = 8 / 13;
+  const VIDEO_RATIO = 9 / 16;
+  const WRAPPER_SIZE = WINDOW_RATIO > APP_RATIO ? innerWidth : innerHeight / APP_RATIO;
+  const GRID_SIZE = WRAPPER_SIZE / 13;
   const LINE_WEIGHT = 3;
   const LINE_COLOR = 'transparent';
-  // const PADDING_COLOR = '#aaa9a7';
   const PADDING_COLOR = 'white';
   const VIDEO_IDS = [
     '7eyYe-MN1Nc',
@@ -32,13 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let iframe = document.querySelector('#player');
   let wrapper = document.querySelector('#wrapper');
+  let videoWrapper = document.querySelector('#video-wrapper');
   let videoIndex = 2;
-  const SHOW_DURATION = 6;
-  const wrapperWidth = GRID_SIZE * 23;
-  const wrapperHeight = GRID_SIZE * 13;
+  const SHOW_DURATION = 10;
+  const wrapperWidth = WRAPPER_SIZE;
+  const wrapperHeight = WRAPPER_SIZE * APP_RATIO;
   wrapper.style.width = `${wrapperWidth}px`;
   wrapper.style.height = `${wrapperHeight}px`;
-  iframe.setAttribute('width', wrapperWidth - 2);
+  videoWrapper.style.width = `${wrapperWidth - 2}px`;
+  videoWrapper.style.height = `${wrapperHeight - 2}px`;
+  iframe.setAttribute('width', (wrapperHeight - 2) / VIDEO_RATIO);
   iframe.setAttribute('height', wrapperHeight - 2);
   iframe.setAttribute('src', getVideoSrc(VIDEO_IDS[videoIndex]));
   iframe.addEventListener('load', window.onYouTubeIframeAPIReady);
@@ -47,8 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
   window.onYouTubeIframeAPIReady = () => {
     player = new YT.Player('player', {
       events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange,
+        onError: err => { console.log(`onerror => ${err}`); }
       }
     });
   };
@@ -58,72 +64,122 @@ document.addEventListener('DOMContentLoaded', () => {
     video.mute();
     video.setPlaybackRate(1);
   };
+  let duration = 0;
+  let first = true;
   const onPlayerStateChange = ev => {
     switch (ev.data) {
     case YT.PlayerState.PLAYING:
       console.log('playing');
-      setTimeout(player.pauseVideo.bind(player), SHOW_DURATION * 1000);
+      if (first) {
+        setTimeout(player.pauseVideo.bind(player), SHOW_DURATION * 1000);
+        first = false;
+      }
       break;
     case YT.PlayerState.ENDED:
     case YT.PlayerState.PAUSED:
       console.log('ended, paused');
-      player.loadVideoById(VIDEO_IDS[++videoIndex % VIDEO_IDS.length], player.getDuration() * Math.random());
+      duration = (player.getDuration() - SHOW_DURATION) * Math.random();
+      duration = duration < 0 ? 0 : duration;
+      console.log(duration);
+      player.loadVideoById({
+        videoId: VIDEO_IDS[++videoIndex % VIDEO_IDS.length],
+        startSeconds: duration,
+        endSeconds: duration + SHOW_DURATION
+      });
       break;
     default:
     }
   };
 
-  let minBlocks = new OKBlocksGroup('04:39', { pattern: 'Lines', size: MIN_BLOCK_SIZE, duration: 200 });
+  let minBlocks = new OKBlocksGroup(moment().format('HHmm'), { pattern: 'Lines', size: GRID_SIZE, duration: 200 });
+  minBlocks.emblems[2].options = { size: GRID_SIZE * 2 };
+  minBlocks.emblems[3].options = { size: GRID_SIZE * 3 };
   minBlocks.emblems.forEach((block, i) => {
     block.dom.classList.add(`min-block-${i}`);
-    let style = block.dom.style;
-    style.top = 0;
-    style.left = `${(MIN_BLOCK_SIZE + MARGIN_SIZE) * i}px`;
     block.lineColor = LINE_COLOR;
     block.paddingColor = PADDING_COLOR;
     block.weight = LINE_WEIGHT;
-  });
-  minBlocks.appendTo(wrapper);
-  let secBlocks = new OKBlocksGroup('**', { pattern: 'Lines', size: SEC_BLOCK_SIZE, duration: 200 });
-  secBlocks.emblems.forEach((block, i) => {
-    block.dom.classList.add(`sec-block-${i}`);
     let style = block.dom.style;
-    style.top = `${GRID_SIZE * 5}px`;
-    style.left = `${GRID_SIZE * 15 * i}px`;
-    block.lineColor = LINE_COLOR;
-    block.paddingColor = PADDING_COLOR;
-    block.weight = LINE_WEIGHT;
-  });
-  secBlocks.appendTo(wrapper);
-  secBlocks.options = { loop: true, displayTime: 1000 };
-  secBlocks.animateFromString('1112131415161718192021222324252627282930');
-  [...'_'.repeat(6)].forEach((_, i) => {
-    let mask = document.querySelector(`.mask.num-${i}`);
-    let style = mask.style;
     switch (i) {
     case 0:
     case 1:
+      style.top = 0;
+      style.left = `${GRID_SIZE * i}px`;
+      break;
     case 2:
+      style.top = `${GRID_SIZE}px`;
+      style.left = 0;
+      break;
     case 3:
       style.top = 0;
-      style.left = `${(MIN_BLOCK_SIZE + MARGIN_SIZE) * i + MIN_BLOCK_SIZE}px`;
-      style.width = `${MARGIN_SIZE}px`;
-      style.height = `${MIN_BLOCK_SIZE}px`;
-      break;
-    case 4:
-      style.top = `${GRID_SIZE * 5}px`;
-      style.left = `${SEC_BLOCK_SIZE}px`;
-      style.width = `${GRID_SIZE * 7}px`;
-      style.height = `${SEC_BLOCK_SIZE}px`;
-      break;
-    case 5:
-      style.top = `${GRID_SIZE * 3}px`;
-      style.left = `${GRID_SIZE * 0}px`;
-      style.width = `${GRID_SIZE * 23}px`;
-      style.height = `${GRID_SIZE * 2}px`;
+      style.left = `${GRID_SIZE * 2}px`;
       break;
     default:
-      throw new Error(`exception in switch. expression => ${i}`);
+    }
+  });
+  minBlocks.appendTo(wrapper);
+  let secBlocks = new OKBlocksGroup(moment().format('ss'), { pattern: 'Lines', size: GRID_SIZE * 5, duration: 200 });
+  secBlocks.emblems[1].options = { size: GRID_SIZE * 8 };
+  secBlocks.emblems.forEach((block, i) => {
+    block.dom.classList.add(`sec-block-${i}`);
+    block.lineColor = LINE_COLOR;
+    block.paddingColor = PADDING_COLOR;
+    block.weight = LINE_WEIGHT;
+    let style = block.dom.style;
+    switch (i) {
+    case 0:
+      style.top = `${GRID_SIZE * 3}px`;
+      style.left = 0;
+      break;
+    case 1:
+      style.top = 0;
+      style.left = `${GRID_SIZE * 5}px`;
+      break;
+    default:
+    }
+  });
+  secBlocks.appendTo(wrapper);
+
+  const _updateClock = timestamp => {
+    const now = moment();
+    const secStr = secBlocks.toString();
+    const nowSec = now.format('ss');
+    if (nowSec === secStr) { return; }
+    secBlocks.map(nowSec);
+    if (nowSec !== '00') { return; }
+    const nowMin = now.format('HHmm');
+    minBlocks.map(nowMin);
+  };
+  const updateClock = throttle(_updateClock, 100);
+  const handleRAF = timestamp => {
+    updateClock(timestamp);
+    requestAnimationFrame(handleRAF);
+  };
+
+  requestAnimationFrame(handleRAF);
+
+  const changeWeight = (block, lighter) => {
+    if (lighter) {
+      block.lighter();
+    } else {
+      block.bolder();
+    }
+  };
+  const lighter = block => changeWeight(block, true);
+  const bolder  = block => changeWeight(block, false);
+  const detector = new keyStringDetector();
+  document.addEventListener('keydown', ev => {
+    let key = detector.detect(ev);
+    switch (key) {
+    case 'J':
+      minBlocks.emblems.forEach(lighter);
+      secBlocks.emblems.forEach(lighter);
+      break;
+    case 'K':
+      minBlocks.emblems.forEach(bolder);
+      secBlocks.emblems.forEach(bolder);
+      break;
+    default:
     }
   });
 });
