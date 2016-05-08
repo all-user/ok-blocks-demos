@@ -150,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let videoWrapper = document.querySelector('#video-wrapper');
   let videoIndex = 0;
   const SHOW_DURATION = 20;
+  const BUFFERING_DURATION = 5;
   const wrapperWidth = WRAPPER_SIZE;
   const wrapperHeight = WRAPPER_SIZE * APP_RATIO;
   wrapper.style.width = `${wrapperWidth}px`;
@@ -172,39 +173,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const playNext = () => {
+    let id;
+    let duration;
+    let startTime;
+    [id, duration] = VIDEO_IDS[videoIndex = ++videoIndex % VIDEO_IDS.length];
+    startTime = (duration - SHOW_DURATION) * Math.random();
+    startTime = startTime < 0 ? 0 : startTime;
+    console.log(id);
+    console.log(duration);
+    player.loadVideoById({
+      videoId: id,
+      startSeconds: startTime
+    });
+  };
   const onPlayerReady = ev => {
     let video = ev.target;
     video.mute();
     video.setPlaybackRate(1);
+    console.log('status => ' + player.getPlayerState());
+    setTimeout((_index => {
+      console.log(player.getPlayerState());
+      console.log(_index === videoIndex);
+      if (player.getPlayerState() === YT.PlayerState.BUFFERING && _index === videoIndex) {
+        playNext();
+      }
+    }).bind(null, videoIndex), BUFFERING_DURATION * 1000);
   };
   const onPlayerStateChange = ev => {
-    let id;
-    let duration;
-    let startTime;
+    console.log('onchange');
     switch (ev.data) {
+    case -1:
+      console.log('-1');
+      break;
     case YT.PlayerState.PLAYING:
       console.log('playing');
       setTimeout(player.pauseVideo.bind(player), SHOW_DURATION * 1000);
       break;
     case YT.PlayerState.PAUSED:
       console.log('paused');
-      [id, duration] = VIDEO_IDS[videoIndex = ++videoIndex % VIDEO_IDS.length];
-      startTime = (duration - SHOW_DURATION) * Math.random();
-      startTime = startTime < 0 ? 0 : startTime;
-      console.log(id);
-      console.log(duration);
-      player.loadVideoById({
-        videoId: id,
-        startSeconds: startTime
-      });
+      playNext();
+      break;
+    case YT.PlayerState.BUFFERING:
+      console.log('buffering');
+      setTimeout((_index => {
+        console.log(player.getPlayerState());
+        console.log(_index === videoIndex);
+        if (player.getPlayerState() === YT.PlayerState.BUFFERING && _index === videoIndex) {
+          playNext();
+        }
+      }).bind(null, videoIndex), BUFFERING_DURATION * 1000);
       break;
     case YT.PlayerState.ENDED:
       console.log('ended');
-      [id, duration] = VIDEO_IDS[videoIndex % VIDEO_IDS.length];
-      player.loadVideoById({
-        videoId: id,
-        startSeconds: 0
-      });
+      playNext();
       break;
     default:
     }
