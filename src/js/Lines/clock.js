@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ['eu5PTvpoWeQ', 0], // Parafia św. Pawła Apostoła w Bochni [transmisja na żywo]
     ['_P8aZKew2Qk', 0], // Transmisja na żywo
     ['frJhxpSSv40', 0], // Beograd Com Live Stream
-    ['N7X030hrg2s', 0], // フジテレビお台場ライブカメラ
+    // ['N7X030hrg2s', 0], // フジテレビお台場ライブカメラ
     ['31vNARRU1SU', 0], // Okeanos Explorer - Camera 3
     ['c_oWfGMH5jg', 0], // Kamera z Zambrowa - Zambrow city - live cameras - Europe, Poland, Zambrów Polska - zambrow.org 2/5
     ['cCqIVbDZcGU', 0], // Degirmenburnu Residence Bodrum City Cam
@@ -168,7 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
       events: {
         onReady: onPlayerReady,
         onStateChange: onPlayerStateChange,
-        onError: err => { console.log(`onerror => ${err}`); }
+        onError: err => {
+          console.log('onerror');
+          console.log(err);
+          console.log(VIDEO_IDS[videoIndex]);
+          playNext();
+        }
       }
     });
   };
