@@ -40,29 +40,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const LINE_COLOR = COLORS[lineColorIndex];
   const PADDING_COLOR = COLORS[paddingColorIndex];
   const VIDEO_IDS = shuffle([
-    ['FSpb0J6jA8s', 0], // WebCam.NL | https://webcam.nl/vollenhove/ - LIVE HD Pan Tilt Zoom camera haven Vollenhove (OV.)
-    ['uek6Q1EwWiA', 0], // WebCam.NL | www.badhuys.com - live camera Vlieland
-    ['gEDFFQhOMq4', 0], // WebCam.NL | www.hotelletjedeveerman.nl - Vlieland
-    ['ddaWn9undBY', 0], // Zeehondencentrum Pieterburen Sealcam
-    ['3MSsNNQHcRM', 0], // WebCam.NL | www.havenplein.net - live FULL HD PTZ camera, Genemuiden.
-    ['4E_YywLuHac', 0], // Todi Live Streaming - Umbria Webcam
-    ['oXLb1KKRI4c', 0], // LIVE Mallory Square - Key West FL
-    ['wOS4d8Slk-Y', 0], // WebCam.NL | www.elburg.nl - Pan Tilt Zoom HD camera.
-    ['5FrCtTCYVWI', 0], // WebCam.NL | www.madametussauds.nl - HD PTZ camera Amsterdam.
-    ['E41HTrLjdTw', 0], // WebCam.NL | http://www.webcamlemmer.nl/ - live vanaf Lemster Toer.
-    ['2AabJFnYNsY', 0], // EF San Diego – Live Stream Webcam
-    ['mME04W1le2c', 0], // WebCam.NL | www.amsterdam-dam.com - Amsterdam Dam LIVE HD PTZ camera.
-    ['vPbQcM4k1Ys', 0], // Venice Italy Live Cam - Rialto Bridge in Live Streaming from Palazzo Bembo - Live Webcam Full HD
-    ['UrMjw089zQA', 0], // Hubble Astronomy Videos - NASA Hubble Space Telescope LIVE CHAT Discuss The Wonders Of The
-    ['nzkns8GfV-I', 0], // Video Replay: The Moon - Incredible Lunar Views From The Japanese SELENE Orbiter - Earthrise
-    ['ddFvjfvPnqk', 0], // ISS LIVE: 🌎 EARTH FROM SPACE NASA ISS HDEV CAMS | Join our live chat
-    ['3Ruruhg6q1w', 0], // Video Replay: EARTH FROM SPACE - Gopro Video ISS Cosmonauts Carry Out SpaceWalk (2013)
-    ['qzMQza8xZCc', 0], // Nasa LIVE stream - Earth From Space LIVE Feed | Incredible ISS live stream of Earth from space
-    ['GdhEsWcV4iE', 0], // Lausanne, Place de la Palud
-    ['5FrCtTCYVWI', 0], // WebCam.NL | www.madametussauds.nl - HD PTZ camera Amsterdam.
-    ['jEIyIAIvVSk', 0], // Fokarium w Helu na żywo / Webcam - Kamera druga
-    ['wxJC3dFmOOU', 0], // Stary Sacz rynek na żywo HD live Restauracja Marysieńka zaprasza. www.starysacz24.eu
-    ['gGVdY2D-GSI', 0], // View from Huntington Beach Pier
+    ['xmEhX5Ourzw', 164],
+    ['ILHoyj0lRiY', 171],
+    ['zsOb5sPcEiM', 180],
+    ['0qfoYXaOqDY', 391],
+    ['YKo6VPpvCUc', 12],
+    ['1s_lTyhBFNY', 46],
+    ['7eyYe-MN1Nc', 1903],
+    ['5Ehd4cFEvnQ', 218],
+    ['VOgpV0jwhDc', 108],
+    ['PC77lsC_q_U', 149],
+    ['tyHa3U-iRaM', 131],
+    ['bNd8JkEptiM', 37],
+    ['fmujLFHRrAA', 912],
+    ['Wc_PzQvr-OQ', 65],
+    ['FnxwlFVohR4', 353],
+    ['OWgmXoCyaXc', 163],
+    ['u6ogYNm4WFI', 74],
+    ['qoLQizjh30k', 101],
+    ['Vpv5bS9MK-w', 421],
+    ['yEowbmxLqEM', 341],
+    ['ldRhniqAI6s', 2129],
+    ['-pVHC1DXQ7U', 229],
+    ['3W3s2VWvYYI', 74],
+    ['r0U83wtmk28', 105],
+    ['laWkmljkrGo', 101],
+    ['dL0lNGXoP8E', 146], // enter the void
+    ['ISb8HjrcyJM', 533], // enter the void
+    ['1t4zmiNR7tQ', 226], // drone
+    ['cnYkifGvqHI', 260], // new york city
+    ['lK_70f7PamE', 30], // better call saul
+    ['rVoPzA0g3Ac', 277], // taking heads
   ]);
 
   document.body.style.backgroundColor = COLORS[paddingColorIndex];
