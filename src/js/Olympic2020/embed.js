@@ -1,14 +1,17 @@
-let { OKBlock } = require('@all-user/ok-blocks');
+// @flow
+
+const { OKBlock } = require('@all-user/ok-blocks');
 require('@all-user/ok-patterns-olympic2020')(OKBlock);
 import { clickButtonHandler, getInputValues } from './helpers/embed_helper.js';
+import type { InputValues } from '@all-user/ok-blocks-demos.types';
 
 const PATTERN     = 'Olympic2020';
 document.addEventListener('DOMContentLoaded', () => {
-  let wrapper       = document.querySelector('#wrapper');
-  let messageInput  = document.querySelector('#message');
-  let embedOutput   = document.querySelector('#embed-output');
-  let genButton     = document.querySelector('#generate-button');
-  let codeButton    = document.querySelector('#embed-button');
+  const wrapper       = document.querySelector('#wrapper');
+  const messageInput  = document.querySelector('#message');
+  const embedOutput   = document.querySelector('#embed-output');
+  const genButton     = document.querySelector('#generate-button');
+  const codeButton    = document.querySelector('#embed-button');
 
   const TITLE_COPY  = 'tokyo  2020   olympic';
   const SHORT_COPY  = 'hi!!   ';
@@ -28,7 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
     'hello  world!!'
   ];
 
-  let params = {
+  if (messageInput == null) {
+    throw new Error('#message is not found.');
+  }
+  messageInput.textContent = COPYS.join('\n');
+
+  if (wrapper == null) {
+    throw new Error('#wrapper is not found.');
+  }
+  const params = {
     pattern: PATTERN,
     vertical: 3,
     horizon: 7,
@@ -36,31 +47,44 @@ document.addEventListener('DOMContentLoaded', () => {
     duration: 1000,
     msg: COPYS
   };
-
-  messageInput.textContent = COPYS.join('\n');
-
   clickButtonHandler(params, wrapper);
 
+  if (genButton == null) {
+    throw new Error('#generate-button is not found.');
+  }
   genButton.addEventListener('click', () => {
-    let options = getInputValues();
+    const options = getInputValues();
     options.pattern = PATTERN;
     clickButtonHandler(options, wrapper);
-    scroll(0, 0);
+    window.scroll(0, 0);
   });
 
+  if (codeButton == null) {
+    throw new Error('#embed-button is not found.');
+  }
   codeButton.addEventListener('click', () => {
-    let embedCode = genEmbedCode();
+    const embedCode = genEmbedCode();
+    if (embedOutput == null) {
+      throw new Error('#embed-output is not found');
+    }
+    if (!(embedOutput instanceof HTMLInputElement)) {
+      console.error('#embed-output sould be HTMLInputElement.');
+      return;
+    }
     embedOutput.value = embedCode;
   });
 });
 
 function genEmbedCode() {
-  let { width, height, vertical, horizon, display, duration, msg } = getInputValues();
+  const { width, height, vertical, horizon, display, duration, msg } = getInputValues();
+  if (typeof width !== 'string' || typeof height !== 'string') {
+    throw new Error('height and width should be css string(e.g., 100vw).');
+  }
   return `<iframe style="width:${ width };height:${ height };border:none;" src="https://all-user.github.io/ok-blocks/demos/Olympic2020/embed_response/index.html?vertical=${ vertical }&horizon=${ horizon }&display=${ display }&duration=${ duration }&msg=${ fixedEncodeURIComponent(msg) }&pattern=${ PATTERN }"></iframe>`;
 }
 
 function fixedEncodeURIComponent(str) {
-  return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
+  return encodeURIComponent(str.join(',')).replace(/[!'()*]/g, function(c) {
     return '%' + c.charCodeAt(0).toString(16);
   });
 }

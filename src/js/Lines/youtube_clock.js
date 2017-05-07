@@ -1,23 +1,34 @@
+// @flow
 /* globals YT */
-import keyStringDetector from 'key-string';
+
+import type { YTInterface } from '@all-user/ok-blocks-demos.types';
+declare var YT: YTInterface;
+
+import type { OKBlockOptions } from '@all-user/ok-blocks';
+import type { ExtendedByLinesPattern } from '@all-user/ok-patterns-lines';
+
+import detectKeyString from 'key-string/detectKeyString';
 const moment = require('moment');
 const throttle = require('lodash/throttle');
 const shuffle = require('lodash/shuffle');
 
 document.addEventListener('DOMContentLoaded', () => {
-  let tag = document.createElement('script');
+  const tag = document.createElement('script');
   tag.src = "https://www.youtube.com/iframe_api";
-  let firstScriptTag = document.getElementsByTagName('script')[0];
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  if (firstScriptTag == null || firstScriptTag.parentNode == null) {
+    throw new Error('Some kind of script tag is needed.');
+  }
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-  let { OKBlock } = require('@all-user/ok-blocks');
-  let { OKBlocksGroup } = require('@all-user/ok-blocks');
+  const { OKBlock } = require('@all-user/ok-blocks');
+  const { OKBlocksGroup } = require('@all-user/ok-blocks');
   require('@all-user/ok-patterns-lines')(OKBlock);
 
-  const WINDOW_RATIO = innerHeight / innerWidth;
+  const WINDOW_RATIO = window.innerHeight / window.innerWidth;
   const APP_RATIO = 8 / 13;
   const VIDEO_RATIO = 9 / 16;
-  const WRAPPER_SIZE = WINDOW_RATIO > APP_RATIO ? innerWidth : innerHeight / APP_RATIO;
+  const WRAPPER_SIZE = WINDOW_RATIO > APP_RATIO ? window.innerWidth : window.innerHeight / APP_RATIO;
   const GRID_SIZE = WRAPPER_SIZE / 13;
   const LINE_WEIGHT = 3;
   const COLORS = [
@@ -73,26 +84,38 @@ document.addEventListener('DOMContentLoaded', () => {
     ['rVoPzA0g3Ac', 277], // taking heads
   ]);
 
+  if (document.body == null) {
+    throw new Error('document.body is not found.');
+  }
   document.body.style.backgroundColor = COLORS[paddingColorIndex];
 
   const getVideoSrc = id => {
     return `http://www.youtube.com/embed/${id}?enablejsapi=1&autoplay=1&controls=0&showinfo=0&modestbranding=0`;
   };
 
-  let iframe = document.querySelector('#player');
-  let wrapper = document.querySelector('#wrapper');
-  let videoWrapper = document.querySelector('#video-wrapper');
+  const iframe = document.querySelector('#player');
+  const wrapper = document.querySelector('#wrapper');
+  const videoWrapper = document.querySelector('#video-wrapper');
   let videoIndex = 0;
   const SHOW_DURATION = 20;
   const BUFFERING_DURATION = 10;
   const wrapperWidth = WRAPPER_SIZE;
   const wrapperHeight = WRAPPER_SIZE * APP_RATIO;
+  if (wrapper == null) {
+    throw new Error('#wrapper is not found.');
+  }
   wrapper.style.width = `${wrapperWidth}px`;
   wrapper.style.height = `${wrapperHeight}px`;
+  if (videoWrapper == null) {
+    throw new Error('#video-wrapper is not found.');
+  }
   videoWrapper.style.width = `${wrapperWidth - 2}px`;
   videoWrapper.style.height = `${wrapperHeight - 2}px`;
-  iframe.setAttribute('width', (wrapperHeight - 2) / VIDEO_RATIO);
-  iframe.setAttribute('height', wrapperHeight - 2);
+  if (iframe == null) {
+    throw new Error('#player is not found.');
+  }
+  iframe.setAttribute('width', (wrapperHeight - 2) / VIDEO_RATIO + '');
+  iframe.setAttribute('height', wrapperHeight - 2 + '');
   iframe.setAttribute('src', getVideoSrc(...VIDEO_IDS[videoIndex]));
   iframe.addEventListener('load', window.onYouTubeIframeAPIReady);
 
@@ -127,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
   const onPlayerReady = ev => {
-    let video = ev.target;
+    const video = ev.target;
     video.mute();
     video.setPlaybackRate(1);
     console.log('status => ' + player.getPlayerState());
@@ -171,48 +194,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  let minBlocks = new OKBlocksGroup(moment().format('HHmm'), { pattern: 'Lines', size: GRID_SIZE, duration: 200 });
-  minBlocks.emblems[2].options = { size: GRID_SIZE * 2 };
-  minBlocks.emblems[3].options = { size: GRID_SIZE * 3 };
-  minBlocks.emblems.forEach((block, i) => {
+  const minBlocks = new OKBlocksGroup(moment().format('HHmm'), { pattern: 'Lines', size: GRID_SIZE, duration: 200 });
+  minBlocks.blocks[2].options = ({ size: GRID_SIZE * 2 }: OKBlockOptions);
+  minBlocks.blocks[3].options = ({ size: GRID_SIZE * 3 }: OKBlockOptions);
+  minBlocks.blocks.forEach((block: ExtendedByLinesPattern, i) => {
     block.dom.classList.add(`min-block-${i}`);
     block.lineColor = LINE_COLOR;
     block.paddingColor = PADDING_COLOR;
     block.weight = LINE_WEIGHT;
-    let style = block.dom.style;
+    const style = block.dom.style;
     switch (i) {
     case 0:
     case 1:
-      style.top = 0;
+      style.top = 0 + '';
       style.left = `${GRID_SIZE * i}px`;
       break;
     case 2:
       style.top = `${GRID_SIZE}px`;
-      style.left = 0;
+      style.left = 0 + '';
       break;
     case 3:
-      style.top = 0;
+      style.top = 0 + '';
       style.left = `${GRID_SIZE * 2}px`;
       break;
     default:
     }
   });
   minBlocks.appendTo(wrapper);
-  let secBlocks = new OKBlocksGroup(moment().format('ss'), { pattern: 'Lines', size: GRID_SIZE * 5, duration: 200 });
-  secBlocks.emblems[1].options = { size: GRID_SIZE * 8 };
-  secBlocks.emblems.forEach((block, i) => {
+  const secBlocks = new OKBlocksGroup(moment().format('ss'), { pattern: 'Lines', size: GRID_SIZE * 5, duration: 200 });
+  secBlocks.blocks[1].options = { size: GRID_SIZE * 8 };
+  secBlocks.blocks.forEach((block: ExtendedByLinesPattern, i) => {
     block.dom.classList.add(`sec-block-${i}`);
     block.lineColor = LINE_COLOR;
     block.paddingColor = PADDING_COLOR;
     block.weight = LINE_WEIGHT;
-    let style = block.dom.style;
+    const style = block.dom.style;
     switch (i) {
     case 0:
       style.top = `${GRID_SIZE * 3}px`;
-      style.left = 0;
+      style.left = 0 + '';
       break;
     case 1:
-      style.top = 0;
+      style.top = 0 + '';
       style.left = `${GRID_SIZE * 5}px`;
       break;
     default:
@@ -234,11 +257,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (i < 4) {
         _arr = interruptMin;
         _i = i;
-        _block = minBlocks.emblems[_i];
+        _block = minBlocks.blocks[_i];
       } else {
         _arr = interruptSec;
         _i = i - 4;
-        _block = secBlocks.emblems[_i];
+        _block = secBlocks.blocks[_i];
       }
       _arr[_i] = _block.allValidChars[_block.allValidChars.length * Math.random() | 0];
       _block.options = { duration: INTERRUPT_DURATION };
@@ -255,10 +278,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
   const makeInterruption = (minStr, secStr) => {
-    let _minChars = minBlocks.toString();
-    let _secChars = secBlocks.toString();
+    const _minChars = minBlocks.toString();
+    const _secChars = secBlocks.toString();
     return new Promise((resolve, reject) => {
-      let validChars = minBlocks.emblems[0].allValidChars;
+      const validChars = minBlocks.blocks[0].allValidChars;
       if (minStr) {
         interruptMin = [...minStr];
       } else {
@@ -302,15 +325,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // intervalInterruption(10000);
   // intervalRandomInterruption(6000);
 
-  const masking = (str, arr) => {
+  const masking = (str: string, arr) => {
     return arr.map((interrupt, i) => interrupt == null ? str[i] : interrupt);
   };
   const _updateClock = timestamp => {
     const now = moment();
     const minStr = minBlocks.toString();
     const secStr = secBlocks.toString();
-    const nowMin = masking(now.format('HHmm'), interruptMin);
-    const nowSec = masking(now.format('ss'), interruptSec);
+    const nowMin = masking(now.format('HHmm'), interruptMin).join('');
+    const nowSec = masking(now.format('ss'), interruptSec).join('');
     if (nowSec !== secStr) {
       secBlocks.map(nowSec);
     }
@@ -326,43 +349,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
   requestAnimationFrame(handleRAF);
 
-  const changeWeight = (block, lighter) => {
+  const changeWeight = (block: ExtendedByLinesPattern, lighter) => {
     if (lighter) {
       block.lighter();
     } else {
       block.bolder();
     }
   };
-  const changeLineColor = block => {
+  const changeLineColor = (block: ExtendedByLinesPattern) => {
     block.lineColor = COLORS[lineColorIndex];
   };
-  const changePaddingColor = block => {
+  const changePaddingColor = (block: ExtendedByLinesPattern) => {
     block.paddingColor = COLORS[paddingColorIndex];
   };
-  const lighter = block => changeWeight(block, true);
-  const bolder  = block => changeWeight(block, false);
-  const detector = new keyStringDetector();
-  document.addEventListener('keydown', ev => {
-    let key = detector.detect(ev);
+  const lighter = (block: ExtendedByLinesPattern) => changeWeight(block, true);
+  const bolder  = (block: ExtendedByLinesPattern) => changeWeight(block, false);
+  document.addEventListener('keydown', (ev: KeyboardEvent) => {
+    const key = detectKeyString(ev);
     switch (key) {
     case 'Shift+J':
-      minBlocks.emblems.forEach(lighter);
-      secBlocks.emblems.forEach(lighter);
+      minBlocks.blocks.forEach(lighter);
+      secBlocks.blocks.forEach(lighter);
       break;
     case 'Shift+K':
-      minBlocks.emblems.forEach(bolder);
-      secBlocks.emblems.forEach(bolder);
+      minBlocks.blocks.forEach(bolder);
+      secBlocks.blocks.forEach(bolder);
       break;
     case 'Shift+C':
       paddingColorIndex = ++paddingColorIndex % COLORS.length;
-      minBlocks.emblems.forEach(changePaddingColor);
-      secBlocks.emblems.forEach(changePaddingColor);
+      minBlocks.blocks.forEach(changePaddingColor);
+      secBlocks.blocks.forEach(changePaddingColor);
+      if (document.body == null) {
+        throw new Error('document.body is not found.');
+      }
       document.body.style.backgroundColor = COLORS[paddingColorIndex];
       break;
     case 'Shift+L':
       lineColorIndex = ++lineColorIndex % COLORS.length;
-      minBlocks.emblems.forEach(changeLineColor);
-      secBlocks.emblems.forEach(changeLineColor);
+      minBlocks.blocks.forEach(changeLineColor);
+      secBlocks.blocks.forEach(changeLineColor);
       break;
     default:
     }

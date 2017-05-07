@@ -1,3 +1,5 @@
+// @flow
+
 import { computedStyles } from './helpers/computed_styles.js';
 let { OKBlock } = require('@all-user/ok-blocks');
 require('@all-user/ok-patterns-olympic2020')(OKBlock);
@@ -11,12 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let sizeL      = size - MARGIN * 2;
   let sizeS      = MARGIN * 3;
 
-  olms.push(new OKBlock('a', { size: sizeS,  displayTime: 3111, random: true, pattern: 'Olympic2020' }));
-  olms.push(new OKBlock('z', { size: sizeS,  displayTime: 6399, random: true, pattern: 'Olympic2020' }));
-  olms.push(new OKBlock('t', { size: sizeS,  displayTime: 1477, random: true, pattern: 'Olympic2020' }));
+  olms.push(OKBlock.factory('a', { size: sizeS,  displayTime: 3111, random: true, pattern: 'Olympic2020' }));
+  olms.push(OKBlock.factory('z', { size: sizeS,  displayTime: 6399, random: true, pattern: 'Olympic2020' }));
+  olms.push(OKBlock.factory('t', { size: sizeS,  displayTime: 1477, random: true, pattern: 'Olympic2020' }));
   olms.forEach(e => { e.dom.style.margin = `${ MARGIN }px`; });
 
-  let bigOKBlock = new OKBlock('/', { size: sizeL, displayTime: 1000, duration: 800, pattern: 'Olympic2020' });
+  let bigOKBlock = OKBlock.factory('/', { size: sizeL, displayTime: 1000, duration: 800, pattern: 'Olympic2020' });
   bigOKBlock.dom.style.margin = `${ MARGIN }px`;
   olms.push(bigOKBlock);
 
@@ -27,10 +29,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (olm.isAnimating) {
         olm.stopAnimate.call(olm);
       } else {
-        olm.resumeAnimate.call(olm);
+        if (olm.resumeAnimate) {
+          olm.resumeAnimate.call(olm);
+        }
       }
     });
 
+    if (wrapper == null) {
+      throw new Error('#wrapper is not found.');
+    }
     wrapper.appendChild(olm.dom);
 
     setTimeout(() => {

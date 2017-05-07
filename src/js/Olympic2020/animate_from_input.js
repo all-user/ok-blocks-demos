@@ -1,30 +1,45 @@
+// @flow
+
 import { computedStyles } from './helpers/computed_styles.js';
 let { OKBlock } = require('@all-user/ok-blocks');
 require('@all-user/ok-patterns-olympic2020')(OKBlock);
 
 document.addEventListener('DOMContentLoaded', () => {
-  let wrapper    = document.querySelector('#wrapper');
+  const wrapper    = document.querySelector('#wrapper');
   const { SIZE } = computedStyles();
-  let size       = SIZE > 675 ? 675 : SIZE;
+  const size       = SIZE > 675 ? 675 : SIZE;
   const MARGIN   = size / 5;
-  let sizeS      = MARGIN * 3;
+  const sizeS      = MARGIN * 3;
 
-  let init = 't';
-  let olms = [];
-  olms.push(new OKBlock(init[0], { size: sizeS, pattern: 'Olympic2020' }));
-//     olms.push(new OKBlock(init[1], { size: sizeS }));
-//     olms.push(new OKBlock(init[2], { size: sizeS }));
-//     olms.push(new OKBlock(init[3], { size: sizeS }));
+  const init = 't';
+  const olms = [];
+  olms.push(OKBlock.factory(init[0], { size: sizeS, pattern: 'Olympic2020' }));
+//     olms.push(OKBlock.factory(init[1], { size: sizeS }));
+//     olms.push(OKBlock.factory(init[2], { size: sizeS }));
+//     olms.push(OKBlock.factory(init[3], { size: sizeS }));
   olms.forEach(e => { e.dom.style.margin = `${ MARGIN }px auto`; });
-
-  let input   = document.querySelector('#user-input');
-
   olms.forEach(olm => {
+    if (wrapper == null) {
+      throw new Error('#wrapper is not found.');
+    }
     wrapper.appendChild(olm.dom);
   });
 
+  let input   = document.querySelector('#user-input');
+  if (input == null) {
+    throw new Error('#user-input is not found.');
+  }
   input.addEventListener('input', e => {
-    let str = (init + e.target.value).slice(-init.length);
+    if (e.target !== input) {
+      console.error('event.target is not equal #user-input.');
+      return;
+    }
+    if (e.target instanceof HTMLInputElement) {
+      (e.target: HTMLInputElement);
+    } else {
+      return;
+    }
+    const str = (init + e.target.value).slice(-init.length);
     [...str].forEach((c, idx) => {
       olms[idx].to(c);
     });

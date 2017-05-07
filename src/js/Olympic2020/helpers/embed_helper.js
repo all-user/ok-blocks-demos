@@ -1,9 +1,12 @@
+// @flow
+
+import type { InputValues } from '@all-user/ok-blocks-demos.types';
 import { computedStyles } from './computed_styles.js';
-let { OKBlocksGroup } = require('@all-user/ok-blocks');
+const { OKBlocksGroup } = require('@all-user/ok-blocks');
 
-let forms = {};
+const forms = {};
 
-function getInputValues() {
+function getInputValues(): InputValues {
   forms.verticalInput = forms.verticalInput || document.querySelector('#vertical');
   forms.horizonInput  = forms.horizonInput  || document.querySelector('#horizon');
   forms.displayInput  = forms.displayInput  || document.querySelector('#display');
@@ -12,18 +15,18 @@ function getInputValues() {
   forms.iWidthInput   = forms.iWidthInput   || document.querySelector('#i-width');
   forms.iHeightInput  = forms.iHeightInput  || document.querySelector('#i-height');
 
-  let vertical = forms.verticalInput.value | 0;
-  let horizon  = forms.horizonInput.value | 0;
-  let display  = forms.displayInput.value | 0;
-  let duration = forms.durationInput.value | 0;
-  let msg      = forms.messageInput.value.split('\n');
-  let width    = forms.iWidthInput.value;
-  let height   = forms.iHeightInput.value;
+  const vertical = forms.verticalInput.value | 0;
+  const horizon  = forms.horizonInput.value | 0;
+  const display  = forms.displayInput.value | 0;
+  const duration = forms.durationInput.value | 0;
+  const msg      = forms.messageInput.value.split('\n');
+  const width    = forms.iWidthInput.value;
+  const height   = forms.iHeightInput.value;
 
   return { vertical, horizon, display, duration, msg, width, height };
 }
 
-function clickButtonHandler(params, wrapper) {
+function clickButtonHandler(params: InputValues, wrapper: HTMLElement) {
   let { msg } = params;
 
   if (typeof params !== 'object') {
@@ -49,13 +52,11 @@ function clickButtonHandler(params, wrapper) {
 
   setTimeout(() => {
     group.animateFromString(params.msg, { loop: true });
-  }, group.emblems[0].displayTime);
+  }, group.blocks[0].displayTime);
 }
 
-function generateSignboard(params) { // object => OKBlocksGroup
+function generateSignboard(params: InputValues): OKBlocksGroup { // object => OKBlocksGroup
   const { SIZE } = computedStyles();
-
-  if (!typeof params === 'object') { return; }
 
   let { pattern, vertical, horizon, display, duration, msg } = params;
 
@@ -67,7 +68,7 @@ function generateSignboard(params) { // object => OKBlocksGroup
 
   let group = new OKBlocksGroup(msg[0], { pattern: pattern, length: vertical * horizon, size: emblemSize, displayTime: display, duration: duration });
 
-  group.emblems.forEach(e => {
+  group.blocks.forEach(e => {
     e.dom.style.margin = `${ margin }px`;
   });
 
