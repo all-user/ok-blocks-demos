@@ -2,25 +2,27 @@
 # yarn lockfile v1
 
 
-"@all-user/ok-blocks@0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@all-user/ok-blocks/-/ok-blocks-0.1.1.tgz#76ea2f25adbb398a9ff63f1f75dfdbd34201e03b"
+"@all-user/ok-blocks@0.1.2", "@all-user/ok-blocks@^0.1.0":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@all-user/ok-blocks/-/ok-blocks-0.1.2.tgz#a6836dcd9edf437edbe4a9f4330f4237374863e4"
   dependencies:
     mkdirp "*"
     npm-run-all "^4.0.2"
     xtend "^4.0.1"
 
-"@all-user/ok-patterns-lines@0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@all-user/ok-patterns-lines/-/ok-patterns-lines-0.2.2.tgz#1e6e59e67457c446354d013c6c7b171d547ef370"
+"@all-user/ok-patterns-lines@0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@all-user/ok-patterns-lines/-/ok-patterns-lines-0.2.5.tgz#4c3ace2e849a2f91d6c1f5fd5d8e3d7d918aa354"
   dependencies:
+    "@all-user/ok-blocks" "^0.1.0"
     mkdirp "*"
     npm-run-all "^4.0.2"
 
-"@all-user/ok-patterns-olympic2020@0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@all-user/ok-patterns-olympic2020/-/ok-patterns-olympic2020-0.1.2.tgz#0b0646f57a6eda788964493f02f2a08df6e756d0"
+"@all-user/ok-patterns-olympic2020@0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@all-user/ok-patterns-olympic2020/-/ok-patterns-olympic2020-0.1.5.tgz#bcad0952df28a521e2b03dfad856b772ce6ea4fb"
   dependencies:
+    "@all-user/ok-blocks" "^0.1.0"
     mkdirp "*"
     npm-run-all "^4.0.2"
 
