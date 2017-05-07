@@ -1,6 +1,9 @@
+// @flow
+
 let { OKBlock } = require('@all-user/ok-blocks');
 require('@all-user/ok-patterns-lines')(OKBlock);
 import { clickButtonHandler } from './helpers/embed_helper.js';
+import type { InputValues } from '@all-user/ok-blocks-demos.types';
 
 document.addEventListener('DOMContentLoaded', () => {
   let pairs  = decodeURIComponent(location.search.slice(1)).split('&');
@@ -12,5 +15,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   params.msg = params.msg.split(',');
 
-  clickButtonHandler(params, document.querySelector('#wrapper'));
+  const wrapper = document.querySelector('#wrapper');
+  if (wrapper == null) {
+    throw new Error('#wrapper is not found.');
+  }
+  if (typeof params.display !== 'number') {
+    params.display = 0;
+  }
+  if (typeof params.duration !== 'number') {
+    params.duration = 0;
+  }
+  if (typeof params.vertical !== 'number') {
+    params.vertical = 0;
+  }
+  if (typeof params.horizon !== 'number') {
+    params.horizon = 0;
+  }
+  clickButtonHandler((params: InputValues), wrapper);
 });

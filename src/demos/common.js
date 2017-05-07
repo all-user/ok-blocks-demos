@@ -12,20 +12,31 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var OKBlock = function () {
-  function OKBlock(c) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { patternName: null };
+  _createClass(OKBlock, null, [{
+    key: 'factory',
+    value: function factory(c, options) {
+      if (options.pattern == null) {
+        throw new Error('options.pattern is not set.');
+      }
+      if (this.patterns[options.pattern] == null) {
+        throw new Error(options.pattern + ' pattern is undefined.');
+      }
+      return new this.patterns[options.pattern]._Class(c, options);
+    }
+  }]);
 
+  function OKBlock(c, options) {
     _classCallCheck(this, OKBlock);
 
-    if (options.patternName == null) {
-      console.error('options.patternName is not set.');return;
+    if (options.pattern == null) {
+      throw new Error('options.pattern is not set.');
     }
-    if (this.constructor.patterns[options.patternName] == null) {
-      console.error(options.patternName + ' patternName is undefined.');return;
+    if (this.constructor.patterns[options.pattern] == null) {
+      throw new Error(options.pattern + ' pattern is undefined.');
     }
 
-    this.patternName = options.patternName;
-    this.patternDefinition = this.constructor.patterns[this.patternName];
+    this.pattern = options.pattern;
+    this.patternDefinition = this.constructor.patterns[this.pattern];
     this.isAnimating = false;
     this.resumeAnimate = null;
     this.char = null;
@@ -316,7 +327,7 @@ var OKBlock = function () {
   }], [{
     key: 'define',
     value: function define(name, patternDefinition) {
-      if (!('_DEFAULT_OPTIONS' in patternDefinition) || !('_BASE_DOM' in patternDefinition) || !('_TRANSITION_PROPS' in patternDefinition) || !('_formationTable' in patternDefinition)) {
+      if (!('_DEFAULT_OPTIONS' in patternDefinition) || !('_BASE_DOM' in patternDefinition) || !('_TRANSITION_PROPS' in patternDefinition) || !('_formationTable' in patternDefinition) || !('_Class' in patternDefinition)) {
         console.error('Pattern is invalid.');
       }
       this.patterns[name] = patternDefinition;
@@ -372,7 +383,7 @@ function _changeStyle(c) {
       var _formation = formation[0];
       node.className = _formation + ' ' + pos;
     } else {
-      pos = _FORMATION_POS_TABLE[idx % 3 + (idx / 3 | 0)];
+      pos = _FORMATION_POS_TABLE[idx + (idx / 3 | 0)];
       node.className = formation + ' ' + pos;
     }
     if (node.classList.contains('rotate-default')) {
@@ -437,7 +448,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var OKBlocksGroup = function () {
   function OKBlocksGroup(chars) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { patternName: null };
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { pattern: null };
 
     _classCallCheck(this, OKBlocksGroup);
 
@@ -472,7 +483,7 @@ var OKBlocksGroup = function () {
         }
       }
     } else {
-      console.error('OKBlocksGroup constructor first argument should be string.');
+      throw new Error('OKBlocksGroup constructor first argument should be string.');
     }
 
     delete options.loop;
@@ -628,7 +639,7 @@ var OKBlocksGroup = function () {
 
       if (lenNew > lenOld) {
         var blankArr = Array.from({ length: lenNew - lenOld }, function () {
-          return new _OKBlock2.default(' ', { patternName: blocks.slice(-1)[0].patternName });
+          return _OKBlock2.default.factory(' ', { pattern: blocks.slice(-1)[0].pattern });
         });
         this.blocks = blocks.concat(blankArr);
       } else if (lenNew < lenOld) {
@@ -750,13 +761,12 @@ var OKBlocksGroup = function () {
 }();
 
 function _transformToOKBlockArray(arg, opt) {
-  // (string | [OKBlock], object) => [OKBlock] | false
 
   var res = void 0;
   switch (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) {
     case 'string':
       res = [].concat(_toConsumableArray(arg)).map(function (c) {
-        return new _OKBlock2.default(c, opt);
+        return _OKBlock2.default.factory(c, opt);
       });
       break;
     case 'object':
@@ -1037,9 +1047,6 @@ var _formationTable = {
 var _TRANSITION_PROPS = ['width', 'height', 'background-color', 'border-radius'];
 
 module.exports = function (OKBlockBase) {
-  var definition = { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DOM, _TRANSITION_PROPS: _TRANSITION_PROPS, _formationTable: _formationTable };
-  OKBlockBase.define('Lines', definition);
-
   /*
    * advanced properties
    */
@@ -1110,6 +1117,9 @@ module.exports = function (OKBlockBase) {
   }(OKBlockBase);
 
   ExtendedByLinesPattern.WEIGHT_LIMIT = 6;
+
+  var definition = { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DOM, _TRANSITION_PROPS: _TRANSITION_PROPS, _formationTable: _formationTable, _Class: ExtendedByLinesPattern };
+  OKBlockBase.define('Lines', definition);
 
   return ExtendedByLinesPattern;
 };
@@ -1242,10 +1252,22 @@ var _formationTable = {
 var _TRANSITION_PROPS = ['top', 'left', 'background-color', 'border-radius'];
 
 module.exports = function (OKBlockBase) {
-  var definition = { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DOM, _TRANSITION_PROPS: _TRANSITION_PROPS, _formationTable: _formationTable };
+  var ExtendedByOlympic2020Pattern = function (_OKBlockBase) {
+    _inherits(ExtendedByOlympic2020Pattern, _OKBlockBase);
+
+    function ExtendedByOlympic2020Pattern() {
+      _classCallCheck(this, ExtendedByOlympic2020Pattern);
+
+      return _possibleConstructorReturn(this, (ExtendedByOlympic2020Pattern.__proto__ || Object.getPrototypeOf(ExtendedByOlympic2020Pattern)).apply(this, arguments));
+    }
+
+    return ExtendedByOlympic2020Pattern;
+  }(OKBlockBase);
+
+  var definition = { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DOM, _TRANSITION_PROPS: _TRANSITION_PROPS, _formationTable: _formationTable, _Class: ExtendedByOlympic2020Pattern };
   OKBlockBase.define('Olympic2020', definition);
-  return function (_OKBlockBase) {
-    _inherits(_class, _OKBlockBase);
+  return function (_OKBlockBase2) {
+    _inherits(_class, _OKBlockBase2);
 
     function _class() {
       _classCallCheck(this, _class);

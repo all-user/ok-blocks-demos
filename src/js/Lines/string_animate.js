@@ -1,3 +1,5 @@
+// @flow
+
 import { computedStyles } from './helpers/computed_styles.js';
 let { OKBlock, OKBlocksGroup } = require('@all-user/ok-blocks');
 require('@all-user/ok-patterns-lines')(OKBlock);
@@ -27,10 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let group = new OKBlocksGroup(TITLE_COPY, { pattern: 'Lines', length: 21, size: EMBLEM_SIZE, displayTime: 1500 });
 
-  group.emblems.forEach(e => {
+  group.blocks.forEach(e => {
     e.dom.style.margin = `${ MARGIN }px`;
   });
 
+  if (wrapper == null) {
+    throw new Error('#wrapper is not found.');
+  }
   group.appendTo(wrapper);
 
   wrapper.addEventListener('click', () => {

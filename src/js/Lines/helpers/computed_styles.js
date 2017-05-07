@@ -1,6 +1,13 @@
+// @flow
+
 function computedStyles() {
-  const WIDTH   = +getComputedStyle(document.querySelector('.container')).width.replace('px', '');
-  const PADDING = +getComputedStyle(document.querySelector('.container')).paddingLeft.replace('px', '');
+  const container = document.querySelector('.container');
+  if (container == null) {
+    throw new Error('.container is not found.');
+  }
+  const Styles = getComputedStyle(container);
+  const WIDTH   = +Styles.width.replace('px', '');
+  const PADDING = +Styles.paddingLeft.replace('px', '');
   const SIZE    = WIDTH - PADDING * 2;
 
   return { WIDTH, PADDING, SIZE };

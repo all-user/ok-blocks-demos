@@ -1,1 +1,31 @@
 // @flow
+
+export type InputValues = {
+  pattern?: string;
+  vertical: number;
+  horizon: number;
+  display: number;
+  duration: number;
+  msg: string[];
+  width?: string;
+  height?: string;
+};
+
+declare class Player {
+  loadVideoById(): any;
+  getPlayerState(): any;
+  pauseVideo(): any;
+}
+
+export type PlayerStateTypes = {
+  ENDED: 0,
+  PLAYING: 1,
+  PAUSED: 2,
+  BUFFERING: 3,
+  CUED: 5
+}
+
+export interface YTInterface {
+  Player: Class<Player>;
+  PlayerState: PlayerStateTypes;
+}
