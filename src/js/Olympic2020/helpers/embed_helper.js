@@ -1,6 +1,6 @@
 // @flow
 
-import type { InputValues } from '@all-user/ok-blocks-demos.types';
+import type { InputValues } from '../../../index.js';
 import { computedStyles } from './computed_styles.js';
 const { OKBlocksGroup } = require('@all-user/ok-blocks');
 
@@ -60,6 +60,7 @@ function generateSignboard(params: InputValues): OKBlocksGroup { // object => OK
 
   let { pattern, vertical, horizon, display, duration, msg } = params;
 
+  if (pattern == null) { throw new Error('params.pattern is not set.'); }
   vertical = vertical || 3;
   horizon  = horizon  || 7;
   display  = display  || 1500;

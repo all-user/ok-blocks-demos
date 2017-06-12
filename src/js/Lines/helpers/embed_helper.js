@@ -1,9 +1,9 @@
 // @flow
 
-import type { InputValues } from '@all-user/ok-blocks-demos.types';
+import type { InputValues } from '../../../index.js';
 import { computedStyles } from './computed_styles.js';
 import type { ExtendedByLinesPattern } from '@all-user/ok-patterns-lines';
-const { OKBlocksGroup } = require('@all-user/ok-blocks');
+const { OKBlock, OKBlocksGroup } = require('@all-user/ok-blocks');
 
 const UP_KEY   = 75;
 const DOWN_KEY = 74;
@@ -32,6 +32,7 @@ function getInputValues(): InputValues {
 
 function clickButtonHandler(params: InputValues, wrapper: HTMLElement) {
   const { msg } = params;
+  const pattern = 'Lines';
 
   if (typeof params !== 'object') {
     new Error('clickButtonHandler arg expect type is object.');
@@ -57,10 +58,20 @@ function clickButtonHandler(params: InputValues, wrapper: HTMLElement) {
   document.addEventListener('keydown', (e: KeyboardEvent) => {
     switch (e.keyCode) {
     case UP_KEY:
-      group.blocks.forEach((emb: any) => (emb: ExtendedByLinesPattern).bolder());
+      group.blocks.forEach(block => {
+        if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
+          throw new Error('block is not instance of LinesPattern');
+        }
+        block.bolder();
+      });
       break;
     case DOWN_KEY:
-      group.blocks.forEach((emb: any) => (emb: ExtendedByLinesPattern).lighter());
+      group.blocks.forEach(block => {
+        if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
+          throw new Error('block is not instance of LinesPattern');
+        }
+        block.lighter();
+      });
       break;
     }
   });
@@ -75,6 +86,7 @@ function generateSignboard(params: InputValues): OKBlocksGroup { // object => OK
 
   let { pattern, vertical, horizon, display, duration, msg } = params;
 
+  if (pattern == null) { throw new Error('params.pattern is not set.'); }
   vertical = vertical || 3;
   horizon  = horizon  || 7;
   display  = display  || 1500;

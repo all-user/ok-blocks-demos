@@ -124,6 +124,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var _computed_styles = require('./computed_styles.js');
 
 var _require = require('@all-user/ok-blocks'),
+    OKBlock = _require.OKBlock,
     OKBlocksGroup = _require.OKBlocksGroup;
 
 var UP_KEY = 75;
@@ -154,6 +155,7 @@ function getInputValues() {
 function clickButtonHandler(params, wrapper) {
   var msg = params.msg;
 
+  var pattern = 'Lines';
 
   if ((typeof params === 'undefined' ? 'undefined' : _typeof(params)) !== 'object') {
     new Error('clickButtonHandler arg expect type is object.');
@@ -178,13 +180,19 @@ function clickButtonHandler(params, wrapper) {
   document.addEventListener('keydown', function (e) {
     switch (e.keyCode) {
       case UP_KEY:
-        group.blocks.forEach(function (emb) {
-          return emb.bolder();
+        group.blocks.forEach(function (block) {
+          if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
+            throw new Error('block is not instance of LinesPattern');
+          }
+          block.bolder();
         });
         break;
       case DOWN_KEY:
-        group.blocks.forEach(function (emb) {
-          return emb.lighter();
+        group.blocks.forEach(function (block) {
+          if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
+            throw new Error('block is not instance of LinesPattern');
+          }
+          block.lighter();
         });
         break;
     }
@@ -208,6 +216,9 @@ function generateSignboard(params) {
       msg = params.msg;
 
 
+  if (pattern == null) {
+    throw new Error('params.pattern is not set.');
+  }
   vertical = vertical || 3;
   horizon = horizon || 7;
   display = display || 1500;

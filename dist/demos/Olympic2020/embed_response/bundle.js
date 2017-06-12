@@ -139,6 +139,9 @@ function generateSignboard(params) {
       msg = params.msg;
 
 
+  if (pattern == null) {
+    throw new Error('params.pattern is not set.');
+  }
   vertical = vertical || 3;
   horizon = horizon || 7;
   display = display || 1500;
