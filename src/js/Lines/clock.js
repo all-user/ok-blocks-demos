@@ -1,7 +1,7 @@
 // @flow
 /* globals YT */
 
-import type { YTInterface } from '@all-user/ok-blocks-demos.types';
+import type { YTInterface } from '../../index.js';
 declare var YT: YTInterface;
 
 import type { OKBlockOptions } from '@all-user/ok-blocks';
@@ -11,6 +11,7 @@ import detectKeyString from 'key-string/detectKeyString';
 const moment = require('moment');
 const throttle = require('lodash/throttle');
 const shuffle = require('lodash/shuffle');
+const pattern = 'Lines';
 
 document.addEventListener('DOMContentLoaded', () => {
   const tag = document.createElement('script');
@@ -186,10 +187,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  const minBlocks = new OKBlocksGroup(moment().format('HHmm'), { pattern: 'Lines', size: GRID_SIZE, duration: 200 });
+  const minBlocks = new OKBlocksGroup(moment().format('HHmm'), { pattern, size: GRID_SIZE, duration: 200 });
   minBlocks.blocks[2].options = { size: GRID_SIZE * 2 };
   minBlocks.blocks[3].options = { size: GRID_SIZE * 3 };
-  minBlocks.blocks.forEach((block: ExtendedByLinesPattern, i) => {
+  minBlocks.blocks.forEach((block, i) => {
+    if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
+      throw new Error('block is not instance of LinesPattern.');
+    }
     block.dom.classList.add(`min-block-${i}`);
     block.lineColor = LINE_COLOR;
     block.paddingColor = PADDING_COLOR;
@@ -213,9 +217,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   minBlocks.appendTo(wrapper);
-  const secBlocks = new OKBlocksGroup(moment().format('ss'), { pattern: 'Lines', size: GRID_SIZE * 5, duration: 200 });
+  const secBlocks = new OKBlocksGroup(moment().format('ss'), { pattern, size: GRID_SIZE * 5, duration: 200 });
   secBlocks.blocks[1].options = { size: GRID_SIZE * 8 };
-  secBlocks.blocks.forEach((block: ExtendedByLinesPattern, i) => {
+  secBlocks.blocks.forEach((block, i) => {
+    if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
+      throw new Error('block is not instance of LinesPattern.');
+    }
     block.dom.classList.add(`sec-block-${i}`);
     block.lineColor = LINE_COLOR;
     block.paddingColor = PADDING_COLOR;
@@ -341,21 +348,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   requestAnimationFrame(handleRAF);
 
-  const changeWeight = (block: ExtendedByLinesPattern, lighter) => {
+  const changeWeight = (block, lighter) => {
+    if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
+      throw new Error('block is not instance of LinesPattern');
+    }
+    block.lineColor = COLORS[lineColorIndex];
     if (lighter) {
       block.lighter();
     } else {
       block.bolder();
     }
   };
-  const changeLineColor = (block: ExtendedByLinesPattern) => {
+  const changeLineColor = (block) => {
+    if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
+      throw new Error('block is not instance of LinesPattern');
+    }
     block.lineColor = COLORS[lineColorIndex];
   };
-  const changePaddingColor = (block: ExtendedByLinesPattern) => {
+  const changePaddingColor = (block) => {
+    if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
+      throw new Error('block is not instance of LinesPattern');
+    }
     block.paddingColor = COLORS[paddingColorIndex];
   };
-  const lighter = (block: ExtendedByLinesPattern) => changeWeight(block, true);
-  const bolder  = (block: ExtendedByLinesPattern) => changeWeight(block, false);
+  const lighter = (block) => changeWeight(block, true);
+  const bolder  = (block) => changeWeight(block, false);
   document.addEventListener('keydown', (ev: KeyboardEvent) => {
     let key = detectKeyString(ev);
     switch (key) {

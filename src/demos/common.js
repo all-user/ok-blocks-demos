@@ -447,9 +447,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var OKBlocksGroup = function () {
-  function OKBlocksGroup(chars) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { pattern: null };
-
+  function OKBlocksGroup(chars, options) {
     _classCallCheck(this, OKBlocksGroup);
 
     var length = options.length,
@@ -878,6 +876,7 @@ var _DEFAULT_OPTIONS = {
 /*
  * DOM in instance of OKBlock.
  */
+
 var _BASE_DOM = function () {
   var wrapper = document.createElement('div');
   var part = document.createElement('div');
@@ -1044,13 +1043,13 @@ var _formationTable = {
  */
 var _TRANSITION_PROPS = ['width', 'height', 'background-color', 'border-radius'];
 
-module.exports = function (OKBlockBase) {
+module.exports = function (OKBlock) {
   /*
    * advanced properties
    */
 
-  var ExtendedByLinesPattern = function (_OKBlockBase) {
-    _inherits(ExtendedByLinesPattern, _OKBlockBase);
+  var ExtendedByLinesPattern = function (_OKBlock) {
+    _inherits(ExtendedByLinesPattern, _OKBlock);
 
     function ExtendedByLinesPattern(c, options) {
       _classCallCheck(this, ExtendedByLinesPattern);
@@ -1112,12 +1111,12 @@ module.exports = function (OKBlockBase) {
     }]);
 
     return ExtendedByLinesPattern;
-  }(OKBlockBase);
+  }(OKBlock);
 
   ExtendedByLinesPattern.WEIGHT_LIMIT = 6;
 
   var definition = { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DOM, _TRANSITION_PROPS: _TRANSITION_PROPS, _formationTable: _formationTable, _Class: ExtendedByLinesPattern };
-  OKBlockBase.define('Lines', definition);
+  OKBlock.define('Lines', definition);
 
   return ExtendedByLinesPattern;
 };
@@ -1145,6 +1144,7 @@ var _DEFAULT_OPTIONS = {
 /*
  * Base of DOM, use to clone into instance of OKBlock.
  */
+
 var _BASE_DOM = function () {
   var wrapper = document.createElement('div');
   var part = document.createElement('div');
@@ -1247,9 +1247,9 @@ var _formationTable = {
  */
 var _TRANSITION_PROPS = ['top', 'left', 'background-color', 'border-radius'];
 
-module.exports = function (OKBlockBase) {
-  var ExtendedByOlympic2020Pattern = function (_OKBlockBase) {
-    _inherits(ExtendedByOlympic2020Pattern, _OKBlockBase);
+module.exports = function (OKBlock) {
+  var ExtendedByOlympic2020Pattern = function (_OKBlock) {
+    _inherits(ExtendedByOlympic2020Pattern, _OKBlock);
 
     function ExtendedByOlympic2020Pattern() {
       _classCallCheck(this, ExtendedByOlympic2020Pattern);
@@ -1258,12 +1258,12 @@ module.exports = function (OKBlockBase) {
     }
 
     return ExtendedByOlympic2020Pattern;
-  }(OKBlockBase);
+  }(OKBlock);
 
   var definition = { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DOM, _TRANSITION_PROPS: _TRANSITION_PROPS, _formationTable: _formationTable, _Class: ExtendedByOlympic2020Pattern };
-  OKBlockBase.define('Olympic2020', definition);
-  return function (_OKBlockBase2) {
-    _inherits(_class, _OKBlockBase2);
+  OKBlock.define('Olympic2020', definition);
+  return function (_OKBlock2) {
+    _inherits(_class, _OKBlock2);
 
     function _class() {
       _classCallCheck(this, _class);
@@ -1272,6 +1272,6 @@ module.exports = function (OKBlockBase) {
     }
 
     return _class;
-  }(OKBlockBase);
+  }(OKBlock);
 };
 },{}]},{},[]);

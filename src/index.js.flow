@@ -12,6 +12,7 @@ export type InputValues = {
 };
 
 declare class Player {
+  constructor(selector: string, options: any): any;
   loadVideoById(): any;
   getPlayerState(): any;
   pauseVideo(): any;

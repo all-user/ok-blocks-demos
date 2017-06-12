@@ -3,7 +3,7 @@
 const { OKBlock } = require('@all-user/ok-blocks');
 require('@all-user/ok-patterns-lines')(OKBlock);
 import { clickButtonHandler, getInputValues } from './helpers/embed_helper.js';
-import type { InputValues } from '@all-user/ok-blocks-demos.types';
+import type { InputValues } from '../../index.js';
 
 const PATTERN    = 'Lines';
 document.addEventListener('DOMContentLoaded', () => {

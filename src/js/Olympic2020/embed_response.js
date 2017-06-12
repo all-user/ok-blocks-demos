@@ -3,7 +3,7 @@
 let { OKBlock } = require('@all-user/ok-blocks');
 require('@all-user/ok-patterns-olympic2020')(OKBlock);
 import { clickButtonHandler } from './helpers/embed_helper.js';
-import type { InputValues } from '@all-user/ok-blocks-demos.types';
+import type { InputValues } from '../../index.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   let pairs  = decodeURIComponent(location.search.slice(1)).split('&');

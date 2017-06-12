@@ -3,7 +3,7 @@
 const { OKBlock } = require('@all-user/ok-blocks');
 require('@all-user/ok-patterns-olympic2020')(OKBlock);
 import { clickButtonHandler, getInputValues } from './helpers/embed_helper.js';
-import type { InputValues } from '@all-user/ok-blocks-demos.types';
+import type { InputValues } from '../../index.js';
 
 const PATTERN     = 'Olympic2020';
 document.addEventListener('DOMContentLoaded', () => {
