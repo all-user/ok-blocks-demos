@@ -3,7 +3,7 @@
 import type { InputValues } from '../../../index.js';
 import { computedStyles } from './computed_styles.js';
 import type { ExtendedByLinesPattern } from '@all-user/ok-patterns-lines';
-const { OKBlock, OKBlocksGroup } = require('@all-user/ok-blocks');
+import { OKBlock, OKBlocksGroup } from '@all-user/ok-blocks';
 
 const UP_KEY   = 75;
 const DOWN_KEY = 74;

@@ -2,7 +2,7 @@
 
 import type { InputValues } from '../../../index.js';
 import { computedStyles } from './computed_styles.js';
-const { OKBlocksGroup } = require('@all-user/ok-blocks');
+import { OKBlocksGroup } from '@all-user/ok-blocks';
 
 const forms = {};
 

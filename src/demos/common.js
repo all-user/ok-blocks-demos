@@ -834,6 +834,11 @@ exports.default = OKBlocksGroup;
 },{"./OKBlock.js":1}],"@all-user/ok-blocks":[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.OKBlocksGroup = exports.OKBlock = undefined;
+
 var _OKBlock = require('./OKBlock.js');
 
 var _OKBlock2 = _interopRequireDefault(_OKBlock);
@@ -844,10 +849,8 @@ var _OKBlocksGroup2 = _interopRequireDefault(_OKBlocksGroup);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = {
-  OKBlock: _OKBlock2.default,
-  OKBlocksGroup: _OKBlocksGroup2.default
-};
+exports.OKBlock = _OKBlock2.default;
+exports.OKBlocksGroup = _OKBlocksGroup2.default;
 },{"./OKBlock.js":1,"./OKBlocksGroup.js":2}],"@all-user/ok-patterns-lines":[function(require,module,exports){
 'use strict';
 

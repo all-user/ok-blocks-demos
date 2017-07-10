@@ -7,10 +7,13 @@ declare var YT: YTInterface;
 import type { OKBlockOptions } from '@all-user/ok-blocks';
 import type { ExtendedByLinesPattern } from '@all-user/ok-patterns-lines';
 
+import { OKBlock, OKBlocksGroup } from '@all-user/ok-blocks';
+import LinesPattern from '@all-user/ok-patterns-lines';
+LinesPattern(OKBlock);
 import detectKeyString from 'key-string/detectKeyString';
-const moment = require('moment');
-const throttle = require('lodash/throttle');
-const shuffle = require('lodash/shuffle');
+import moment from 'moment';
+import throttle from 'lodash/throttle';
+import shuffle from 'lodash/shuffle';
 const pattern = 'Lines';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -21,10 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     throw new Error('Some kind of script tag is needed.');
   }
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-  const { OKBlock } = require('@all-user/ok-blocks');
-  const { OKBlocksGroup } = require('@all-user/ok-blocks');
-  const OKBlockLines = require('@all-user/ok-patterns-lines')(OKBlock);
 
   const WINDOW_RATIO = window.innerHeight / window.innerWidth;
   const APP_RATIO = 8 / 13;

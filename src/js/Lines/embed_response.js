@@ -1,7 +1,8 @@
 // @flow
 
 let { OKBlock } = require('@all-user/ok-blocks');
-require('@all-user/ok-patterns-lines')(OKBlock);
+import LinesPattern from '@all-user/ok-patterns-lines';
+LinesPattern(OKBlock);
 import { clickButtonHandler } from './helpers/embed_helper.js';
 import type { InputValues } from '../../index.js';
 

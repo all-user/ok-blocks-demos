@@ -1,8 +1,9 @@
 // @flow
 
 import { computedStyles } from './helpers/computed_styles.js';
-const { OKBlock } = require('@all-user/ok-blocks');
-require('@all-user/ok-patterns-lines')(OKBlock);
+import { OKBlock } from '@all-user/ok-blocks';
+import LinesPattern from '@all-user/ok-patterns-lines';
+LinesPattern(OKBlock);
 
 document.addEventListener('DOMContentLoaded', () => {
   const wrapper    = document.querySelector('#wrapper');

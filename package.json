@@ -82,6 +82,7 @@
     "nib": "^1.1.2",
     "npm-run-all": "^4.0.2",
     "npm-run-help": "^1.1.0",
+    "power-assert": "^1.4.4",
     "pug-cli": "^1.0.0-alpha6",
     "rimraf": "^2.6.1",
     "stylus": "^0.54.5",

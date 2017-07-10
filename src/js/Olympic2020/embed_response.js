@@ -1,7 +1,8 @@
 // @flow
 
-let { OKBlock } = require('@all-user/ok-blocks');
-require('@all-user/ok-patterns-olympic2020')(OKBlock);
+import { OKBlock } from '@all-user/ok-blocks';
+import Olympic2020Pattern from '@all-user/ok-patterns-olympic2020';
+Olympic2020Pattern(OKBlock);
 import { clickButtonHandler } from './helpers/embed_helper.js';
 import type { InputValues } from '../../index.js';
 
