@@ -3,6 +3,7 @@
 import { computedStyles } from './helpers/computed_styles.js';
 import { OKBlock, OKBlocksGroup } from '@all-user/ok-blocks';
 import Olympic2020Pattern from '@all-user/ok-patterns-olympic2020';
+import type { ExtendedByOlympic2020Pattern } from '@all-user/ok-patterns-olympic2020';
 Olympic2020Pattern(OKBlock);
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let group = new OKBlocksGroup(TITLE_COPY, { pattern: 'Olympic2020', length: 21, size: EMBLEM_SIZE, displayTime: 1500 });
 
-  group.blocks.forEach(e => {
+  group.blocks.forEach((e: ExtendedByOlympic2020Pattern<OKBlock>) => {
     e.dom.style.margin = `${ MARGIN }px`;
   });
 

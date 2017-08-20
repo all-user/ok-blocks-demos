@@ -15,9 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const init = 't';
   const olms = [];
   olms.push(OKBlock.factory(init[0], { size: sizeS, pattern: 'Olympic2020' }));
-//     olms.push(OKBlock.factory(init[1], { size: sizeS }));
-//     olms.push(OKBlock.factory(init[2], { size: sizeS }));
-//     olms.push(OKBlock.factory(init[3], { size: sizeS }));
+  // olms.push(OKBlock.factory(init[1], { size: sizeS }));
+  // olms.push(OKBlock.factory(init[2], { size: sizeS }));
+  // olms.push(OKBlock.factory(init[3], { size: sizeS }));
   olms.forEach(e => { e.dom.style.margin = `${ MARGIN }px auto`; });
   olms.forEach(olm => {
     if (wrapper == null) {

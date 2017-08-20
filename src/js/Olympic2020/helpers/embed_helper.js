@@ -1,8 +1,9 @@
 // @flow
 
-import type { InputValues, FormsObject } from '../../../index.js';
+import type { InputValues, FormsObject, HasValueProperty } from '../../../index.js';
 import { computedStyles } from './computed_styles.js';
-import { OKBlocksGroup } from '@all-user/ok-blocks';
+import { OKBlock, OKBlocksGroup } from '@all-user/ok-blocks';
+import type { ExtendedByOlympic2020Pattern } from '@all-user/ok-patterns-olympic2020';
 
 const forms: FormsObject = {};
 
@@ -69,16 +70,16 @@ function generateSignboard(params: InputValues): OKBlocksGroup { // object => OK
 
   let group = new OKBlocksGroup(msg[0], { pattern: pattern, length: vertical * horizon, size: emblemSize, displayTime: display, duration: duration });
 
-  group.blocks.forEach(e => {
+  group.blocks.forEach((e: ExtendedByOlympic2020Pattern<OKBlock>) => {
     e.dom.style.margin = `${ margin }px`;
   });
 
   return group;
 }
 
-function ensureNumberValueFromHasValuePropertyHTMLElement(el: ?HTMLElement, HasValuePropertyClass: Class<HTMLElement>): number {
+function ensureNumberValueFromHasValuePropertyHTMLElement(el: ?HTMLElement, HasValuePropertyClass: Class<HasValueProperty>): number {
   if (el instanceof HasValuePropertyClass) {
-    const value = parseInt(el.value, 10);
+    const value = parseInt((el: HasValueProperty).value, 10);
     if (Number.isNaN(value)) {
       console.error('inputed value is not a number', value);
       throw new Error('inputed value is not a number');
@@ -94,9 +95,9 @@ function ensureNumberValueFromHasValuePropertyHTMLElement(el: ?HTMLElement, HasV
   }
 }
 
-function ensureStringValueFromHasValuePropertyHTMLElement(el: ?HTMLElement, HasValuePropertyClass: Class<HTMLElement>): string {
+function ensureStringValueFromHasValuePropertyHTMLElement(el: ?HTMLElement, HasValuePropertyClass: Class<HasValueProperty>): string {
   if (el instanceof HasValuePropertyClass) {
-    return el.value;
+    return (el: HasValueProperty).value;
   } else if (el == null) {
     console.error('given argument is null or undefined', el);
     throw new Error('given argument is null or undefined');
