@@ -1,8 +1,9 @@
 // @flow
 
 import { computedStyles } from './helpers/computed_styles.js';
-const { OKBlock } = require('@all-user/ok-blocks');
-require('@all-user/ok-patterns-lines')(OKBlock);
+import { OKBlock } from '@all-user/ok-blocks';
+import LinesPattern from '@all-user/ok-patterns-lines';
+LinesPattern(OKBlock);
 
 document.addEventListener('DOMContentLoaded', () => {
   const wrapper    = document.querySelector('#wrapper');
@@ -14,9 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const init = 't';
   const olms = [];
   olms.push(OKBlock.factory(init[0], { pattern: 'Lines', size: sizeS }));
-//     olms.push(OKBlock.factory(init[1], { pattern: 'Lines', size: sizeS }));
-//     olms.push(OKBlock.factory(init[2], { pattern: 'Lines', size: sizeS }));
-//     olms.push(OKBlock.factory(init[3], { pattern: 'Lines', size: sizeS }));
+  // olms.push(OKBlock.factory(init[1], { pattern: 'Lines', size: sizeS }));
+  // olms.push(OKBlock.factory(init[2], { pattern: 'Lines', size: sizeS }));
+  // olms.push(OKBlock.factory(init[3], { pattern: 'Lines', size: sizeS }));
   olms.forEach(e => { e.dom.style.margin = `${ MARGIN }px auto`; });
   olms.forEach(olm => {
     if (wrapper == null) {

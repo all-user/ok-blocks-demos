@@ -1,30 +1,29 @@
 // @flow
-/* globals YT */
 
 import type { YTInterface } from '../../index.js';
 declare var YT: YTInterface;
+declare var onYouTubeIframeAPIReady: () => void;
 
-import type { OKBlockOptions } from '@all-user/ok-blocks';
+import { OKBlock, OKBlocksGroup } from '@all-user/ok-blocks';
+import LinesPattern from '@all-user/ok-patterns-lines';
 import type { ExtendedByLinesPattern } from '@all-user/ok-patterns-lines';
+LinesPattern(OKBlock);
+
+type Extended = ExtendedByLinesPattern<OKBlock>;
 
 import detectKeyString from 'key-string/detectKeyString';
-const moment = require('moment');
-const throttle = require('lodash/throttle');
-const shuffle = require('lodash/shuffle');
+import moment from 'moment';
+import { throttle, shuffle } from 'lodash';
 const pattern = 'Lines';
 
 document.addEventListener('DOMContentLoaded', () => {
   const tag = document.createElement('script');
-  tag.src = "https://www.youtube.com/iframe_api";
+  tag.src = 'https://www.youtube.com/iframe_api';
   const firstScriptTag = document.getElementsByTagName('script')[0];
   if (firstScriptTag == null || firstScriptTag.parentNode == null) {
     throw new Error('Some kind of script tag is needed.');
   }
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-  const { OKBlock } = require('@all-user/ok-blocks');
-  const { OKBlocksGroup } = require('@all-user/ok-blocks');
-  const OKBlockLines = require('@all-user/ok-patterns-lines')(OKBlock);
 
   const WINDOW_RATIO = window.innerHeight / window.innerWidth;
   const APP_RATIO = 8 / 13;
@@ -82,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   document.body.style.backgroundColor = COLORS[paddingColorIndex];
 
-  const getVideoSrc = id => {
+  const getVideoSrc = (id: string, startTime: number) => {
     return `http://www.youtube.com/embed/${id}?enablejsapi=1&autoplay=1&controls=0&showinfo=0&modestbranding=0`;
   };
 
@@ -110,15 +109,15 @@ document.addEventListener('DOMContentLoaded', () => {
   iframe.setAttribute('width', (wrapperHeight - 2) / VIDEO_RATIO + '');
   iframe.setAttribute('height', wrapperHeight - 2 + '');
   iframe.setAttribute('src', getVideoSrc(...VIDEO_IDS[videoIndex]));
-  iframe.addEventListener('load', window.onYouTubeIframeAPIReady);
+  iframe.addEventListener('load', onYouTubeIframeAPIReady);
 
-  let player;
-  window.onYouTubeIframeAPIReady = () => {
+  let player: YT.Player;
+  onYouTubeIframeAPIReady = () => {
     player = new YT.Player('player', {
       events: {
         onReady: onPlayerReady,
         onStateChange: onPlayerStateChange,
-        onError: err => {
+        onError(err: Error) {
           console.log('onerror');
           console.log(err);
           console.log(VIDEO_IDS[videoIndex]);
@@ -190,10 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const minBlocks = new OKBlocksGroup(moment().format('HHmm'), { pattern, size: GRID_SIZE, duration: 200 });
   minBlocks.blocks[2].options = { size: GRID_SIZE * 2 };
   minBlocks.blocks[3].options = { size: GRID_SIZE * 3 };
-  minBlocks.blocks.forEach((block, i) => {
-    if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
-      throw new Error('block is not instance of LinesPattern.');
-    }
+  minBlocks.blocks.forEach((block: Extended, i) => {
     block.dom.classList.add(`min-block-${i}`);
     block.lineColor = LINE_COLOR;
     block.paddingColor = PADDING_COLOR;
@@ -219,10 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
   minBlocks.appendTo(wrapper);
   const secBlocks = new OKBlocksGroup(moment().format('ss'), { pattern, size: GRID_SIZE * 5, duration: 200 });
   secBlocks.blocks[1].options = { size: GRID_SIZE * 8 };
-  secBlocks.blocks.forEach((block, i) => {
-    if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
-      throw new Error('block is not instance of LinesPattern.');
-    }
+  secBlocks.blocks.forEach((block: Extended, i) => {
     block.dom.classList.add(`sec-block-${i}`);
     block.lineColor = LINE_COLOR;
     block.paddingColor = PADDING_COLOR;
@@ -327,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const masking = (str, arr) => {
     return arr.map((interrupt, i) => interrupt == null ? str[i] : interrupt);
   };
-  const _updateClock = timestamp => {
+  const _updateClock = (timestamp: DOMHighResTimeStamp) => {
     const now = moment();
     const minStr = minBlocks.toString();
     const secStr = secBlocks.toString();
@@ -340,18 +333,15 @@ document.addEventListener('DOMContentLoaded', () => {
       minBlocks.map(nowMin);
     }
   };
-  const updateClock = throttle(_updateClock, 100);
-  const handleRAF = timestamp => {
+  const updateClock: (DOMHighResTimeStamp) => void = throttle(_updateClock, 100);
+  const handleRAF = (timestamp: DOMHighResTimeStamp) => {
     updateClock(timestamp);
     requestAnimationFrame(handleRAF);
   };
 
   requestAnimationFrame(handleRAF);
 
-  const changeWeight = (block, lighter) => {
-    if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
-      throw new Error('block is not instance of LinesPattern');
-    }
+  const changeWeight = (block: Extended, lighter) => {
     block.lineColor = COLORS[lineColorIndex];
     if (lighter) {
       block.lighter();
@@ -359,20 +349,14 @@ document.addEventListener('DOMContentLoaded', () => {
       block.bolder();
     }
   };
-  const changeLineColor = (block) => {
-    if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
-      throw new Error('block is not instance of LinesPattern');
-    }
+  const changeLineColor = (block: Extended) => {
     block.lineColor = COLORS[lineColorIndex];
   };
-  const changePaddingColor = (block) => {
-    if (!(block instanceof OKBlock.patterns[pattern]._Class)) {
-      throw new Error('block is not instance of LinesPattern');
-    }
+  const changePaddingColor = (block: Extended) => {
     block.paddingColor = COLORS[paddingColorIndex];
   };
-  const lighter = (block) => changeWeight(block, true);
-  const bolder  = (block) => changeWeight(block, false);
+  const lighter = (block: Extended) => changeWeight(block, true);
+  const bolder  = (block: Extended) => changeWeight(block, false);
   document.addEventListener('keydown', (ev: KeyboardEvent) => {
     let key = detectKeyString(ev);
     switch (key) {

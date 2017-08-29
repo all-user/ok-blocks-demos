@@ -1,8 +1,10 @@
 // @flow
 
 import { computedStyles } from './helpers/computed_styles.js';
-let { OKBlock, OKBlocksGroup } = require('@all-user/ok-blocks');
-require('@all-user/ok-patterns-lines')(OKBlock);
+import { OKBlock, OKBlocksGroup } from '@all-user/ok-blocks';
+import LinesPattern from '@all-user/ok-patterns-lines';
+import type { ExtendedByLinesPattern } from '@all-user/ok-patterns-lines';
+LinesPattern(OKBlock);
 
 document.addEventListener('DOMContentLoaded', () => {
   let wrapper    = document.querySelector('#wrapper');
@@ -29,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let group = new OKBlocksGroup(TITLE_COPY, { pattern: 'Lines', length: 21, size: EMBLEM_SIZE, displayTime: 1500 });
 
-  group.blocks.forEach(e => {
+  group.blocks.forEach((e: ExtendedByLinesPattern<OKBlock>) => {
     e.dom.style.margin = `${ MARGIN }px`;
   });
 

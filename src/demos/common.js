@@ -834,6 +834,11 @@ exports.default = OKBlocksGroup;
 },{"./OKBlock.js":1}],"@all-user/ok-blocks":[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.OKBlocksGroup = exports.OKBlock = undefined;
+
 var _OKBlock = require('./OKBlock.js');
 
 var _OKBlock2 = _interopRequireDefault(_OKBlock);
@@ -844,10 +849,8 @@ var _OKBlocksGroup2 = _interopRequireDefault(_OKBlocksGroup);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = {
-  OKBlock: _OKBlock2.default,
-  OKBlocksGroup: _OKBlocksGroup2.default
-};
+exports.OKBlock = _OKBlock2.default;
+exports.OKBlocksGroup = _OKBlocksGroup2.default;
 },{"./OKBlock.js":1,"./OKBlocksGroup.js":2}],"@all-user/ok-patterns-lines":[function(require,module,exports){
 'use strict';
 
@@ -1043,13 +1046,13 @@ var _formationTable = {
  */
 var _TRANSITION_PROPS = ['width', 'height', 'background-color', 'border-radius'];
 
-module.exports = function (OKBlock) {
+module.exports = function (OKBlockClass) {
   /*
    * advanced properties
    */
 
-  var ExtendedByLinesPattern = function (_OKBlock) {
-    _inherits(ExtendedByLinesPattern, _OKBlock);
+  var ExtendedByLinesPattern = function (_OKBlockClass) {
+    _inherits(ExtendedByLinesPattern, _OKBlockClass);
 
     function ExtendedByLinesPattern(c, options) {
       _classCallCheck(this, ExtendedByLinesPattern);
@@ -1111,12 +1114,12 @@ module.exports = function (OKBlock) {
     }]);
 
     return ExtendedByLinesPattern;
-  }(OKBlock);
+  }(OKBlockClass);
 
   ExtendedByLinesPattern.WEIGHT_LIMIT = 6;
 
   var definition = { _DEFAULT_OPTIONS: _DEFAULT_OPTIONS, _BASE_DOM: _BASE_DOM, _TRANSITION_PROPS: _TRANSITION_PROPS, _formationTable: _formationTable, _Class: ExtendedByLinesPattern };
-  OKBlock.define('Lines', definition);
+  OKBlockClass.define('Lines', definition);
 
   return ExtendedByLinesPattern;
 };

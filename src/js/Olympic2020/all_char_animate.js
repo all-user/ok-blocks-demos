@@ -1,8 +1,9 @@
 // @flow
 
 import { computedStyles } from './helpers/computed_styles.js';
-let { OKBlock } = require('@all-user/ok-blocks');
-require('@all-user/ok-patterns-olympic2020')(OKBlock);
+import { OKBlock } from '@all-user/ok-blocks';
+import Olympic2020Pattern from '@all-user/ok-patterns-olympic2020';
+Olympic2020Pattern(OKBlock);
 
 document.addEventListener('DOMContentLoaded', () => {
   let wrapper    = document.querySelector('#wrapper');

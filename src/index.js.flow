@@ -11,10 +11,32 @@ export type InputValues = {
   height?: string;
 };
 
+export type FormsObject = {
+  verticalInput?: ?HTMLElement,
+  horizonInput?: ?HTMLElement,
+  displayInput?: ?HTMLElement,
+  durationInput?: ?HTMLElement,
+  messageInput?: ?HTMLElement,
+  iWidthInput?: ?HTMLElement,
+  iHeightInput?: ?HTMLElement,
+};
+
+export type YTPlayerEventHandler = (ev: any) => any;
+export type YTPlayerEventErrorHandler = (err: any) => any;
+
 declare class Player {
-  constructor(selector: string, options: any): any;
-  loadVideoById(): any;
-  getPlayerState(): any;
+  constructor(selector: string, options: {
+    events: {
+      onReady: YTPlayerEventHandler,
+      onStateChange: YTPlayerEventHandler,
+      onError: YTPlayerEventErrorHandler
+    }
+  }): any;
+  loadVideoById(params: {
+    videoId: string,
+    startSeconds: number
+  }): any;
+  getPlayerState(): $Values<any>;
   pauseVideo(): any;
 }
 
@@ -30,3 +52,5 @@ export interface YTInterface {
   Player: Class<Player>;
   PlayerState: PlayerStateTypes;
 }
+
+export type HasValueProperty = HTMLInputElement | HTMLTextAreaElement;

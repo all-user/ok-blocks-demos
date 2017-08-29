@@ -1,10 +1,11 @@
 // @flow
 
-import type { InputValues } from '../../../index.js';
+import type { InputValues, FormsObject, HasValueProperty } from '../../../index.js';
 import { computedStyles } from './computed_styles.js';
-const { OKBlocksGroup } = require('@all-user/ok-blocks');
+import { OKBlock, OKBlocksGroup } from '@all-user/ok-blocks';
+import type { ExtendedByOlympic2020Pattern } from '@all-user/ok-patterns-olympic2020';
 
-const forms = {};
+const forms: FormsObject = {};
 
 function getInputValues(): InputValues {
   forms.verticalInput = forms.verticalInput || document.querySelector('#vertical');
@@ -15,13 +16,13 @@ function getInputValues(): InputValues {
   forms.iWidthInput   = forms.iWidthInput   || document.querySelector('#i-width');
   forms.iHeightInput  = forms.iHeightInput  || document.querySelector('#i-height');
 
-  const vertical = forms.verticalInput.value | 0;
-  const horizon  = forms.horizonInput.value | 0;
-  const display  = forms.displayInput.value | 0;
-  const duration = forms.durationInput.value | 0;
-  const msg      = forms.messageInput.value.split('\n');
-  const width    = forms.iWidthInput.value;
-  const height   = forms.iHeightInput.value;
+  const vertical = ensureNumberValueFromHasValuePropertyHTMLElement(forms.verticalInput, HTMLInputElement);
+  const horizon  = ensureNumberValueFromHasValuePropertyHTMLElement(forms.horizonInput, HTMLInputElement);
+  const display  = ensureNumberValueFromHasValuePropertyHTMLElement(forms.displayInput, HTMLInputElement);
+  const duration = ensureNumberValueFromHasValuePropertyHTMLElement(forms.durationInput, HTMLInputElement);
+  const msg      = ensureStringValueFromHasValuePropertyHTMLElement(forms.messageInput, HTMLTextAreaElement).split('\n');
+  const width    = ensureStringValueFromHasValuePropertyHTMLElement(forms.iWidthInput, HTMLInputElement);
+  const height   = ensureStringValueFromHasValuePropertyHTMLElement(forms.iHeightInput, HTMLInputElement);
 
   return { vertical, horizon, display, duration, msg, width, height };
 }
@@ -69,11 +70,41 @@ function generateSignboard(params: InputValues): OKBlocksGroup { // object => OK
 
   let group = new OKBlocksGroup(msg[0], { pattern: pattern, length: vertical * horizon, size: emblemSize, displayTime: display, duration: duration });
 
-  group.blocks.forEach(e => {
+  group.blocks.forEach((e: ExtendedByOlympic2020Pattern<OKBlock>) => {
     e.dom.style.margin = `${ margin }px`;
   });
 
   return group;
+}
+
+function ensureNumberValueFromHasValuePropertyHTMLElement(el: ?HTMLElement, HasValuePropertyClass: Class<HasValueProperty>): number {
+  if (el instanceof HasValuePropertyClass) {
+    const value = parseInt((el: HasValueProperty).value, 10);
+    if (Number.isNaN(value)) {
+      console.error('inputed value is not a number', value);
+      throw new Error('inputed value is not a number');
+    } else {
+      return value;
+    }
+  } else if (el == null) {
+    console.error('given argument is null or undefined', el);
+    throw new Error('given argument is null or undefined');
+  } else {
+    console.error('given argument is not HTMLInputElement', el);
+    throw new Error('given argument is not HTMLInputElement');
+  }
+}
+
+function ensureStringValueFromHasValuePropertyHTMLElement(el: ?HTMLElement, HasValuePropertyClass: Class<HasValueProperty>): string {
+  if (el instanceof HasValuePropertyClass) {
+    return (el: HasValueProperty).value;
+  } else if (el == null) {
+    console.error('given argument is null or undefined', el);
+    throw new Error('given argument is null or undefined');
+  } else {
+    console.error('given argument is not HTMLInputElement', el);
+    throw new Error('given argument is not HTMLInputElement');
+  }
 }
 
 export { clickButtonHandler, getInputValues };
